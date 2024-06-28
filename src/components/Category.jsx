@@ -25,8 +25,8 @@ const Category = () => {
   }, []);
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
-      <h1 className="mb-2 text-3xl font-bold">Category</h1>
-      <p className="mb-5 text-gray-500">
+      <h1 className="mb-2 text-3xl font-bold text-left">Category</h1>
+      <p className="mb-5 text-left text-gray-500">
         Here are lots of interesting destinations to visit, <br /> but don’t be
         confused—they’re already grouped <br /> by category.
       </p>
