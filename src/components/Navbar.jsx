@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import Modal from "./Modal";
 import Register from "../pages/register";
 import Login from "../pages/login";
 
@@ -33,25 +32,12 @@ const Navbar = () => {
     }
   };
 
-  // const handleClickOutsideProfile = (event) => {
-  //   if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-  //     dropDownOpen(false);
-  //   }
-  // };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideNav);
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideNav);
     };
   }, []);
-
-  // useEffect(() => {
-  //   document.addEventListener("mousedown", handleClickOutsideProfile);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutsideProfile);
-  //   };
-  // }, []);
 
   const handleProfileClick = () => {
     setDropDownOpen(!dropDownOpen);
@@ -213,22 +199,16 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      <Modal
-        isVisible={showModalRegister}
+
+      <Register
         onClose={() => setShowModalRegister(false)}
-        width="w-[500px]"
-        height="h-[600px]"
-      >
-        <Register />
-      </Modal>
-      <Modal
-        width="w-[400px]"
-        height="h-[550px]"
-        isVisible={showModalLogin}
+        isVisible={showModalRegister}
+      />
+
+      <Login
         onClose={() => setShowModalLogin(false)}
-      >
-        <Login onClose={() => setShowModalLogin(false)} />
-      </Modal>
+        isVisible={showModalLogin}
+      />
     </div>
   );
 };

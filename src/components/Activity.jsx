@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Activity = () => {
   const [activity, setActivity] = useState([]);
@@ -45,9 +46,12 @@ const Activity = () => {
                   </p>
                   <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">Rp.{item.price}</p>
-                    <button className="px-3 py-1 text-white bg-orange-500 rounded-full">
+                    <Link
+                      to={`/actDetail/${item.id}`}
+                      className="px-3 py-1 text-white bg-orange-500 rounded-full"
+                    >
                       View
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

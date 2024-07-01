@@ -2,8 +2,9 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
-const Register = () => {
+const Register = ({ onClose, isVisible }) => {
   const navigate = useNavigate();
   // const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
@@ -88,206 +89,135 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Sign Up</h1>
-      <p className="my-2 text-sm">Please enter your details</p>
-      {/* {token && <p className="text-black bg-green-400">{successMessage}</p>} */}
-      {error && <p className="text-red-600 ">{error}</p>}
-      {/* <form
-        onSubmit={handleRegister}
-        className="flex flex-col gap-2 mt-2 md:flex-row"
-      >
-        <div className="flex flex-col gap-2">
-          <div>
-            <label htmlFor="email">Email</label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="p-1 border border-orange-300 rounded-lg"
-            />
-          </div>
-          <div>
-            <label htmlFor="name">Name</label>
-            <input
-              onChange={(e) => setName(e.target.value)}
-              type="text"
-              name="name"
-              id="name"
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              name="password"
-              id="password"
-            />
-          </div>
-          <div>
-            <label htmlFor="passwordrepeat">Password Repeat</label>
-            <input
-              onChange={(e) => setPasswordRepeat(e.target.value)}
-              type="password"
-              name="passwordrepeat"
-              id="passwordrepeat"
-            />
-          </div>
-        </div>
+    <Modal
+      isVisible={isVisible}
+      onClose={onClose}
+      width="w-[500px]"
+      height="h-[600px]"
+    >
+      <div>
+        <h1 className="text-3xl font-bold">Sign Up</h1>
+        <p className="my-2 text-sm">Please enter your details</p>
+        {error && <p className="text-red-600 ">{error}</p>}
 
-        <div>
-          <div>
-            <label htmlFor="role">Role</label>
-            <select
-              onChange={(e) => setRole(e.target.value)}
-              value={role}
-              name="role"
-              id="role"
-            >
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="upload">Upload Img</label>
-            <input
-              onChange={(e) => setProfilePicture(e.target.files[0])}
-              type="file"
-              name="img"
-              id="img"
-            />
-          </div>
-          <div>
-            <label htmlFor="phone">Phone</label>
-            <input
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              type="text"
-              name="phone"
-              id="phone"
-            />
-          </div>
-          <button type="submit">Sign Up</button>
-        </div>
-      </form> */}
+        {successMessage && <p className="text-green-600 ">{successMessage}</p>}
 
-      <form onSubmit={handleRegister} className="flex flex-col space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col">
-            <label htmlFor="email" className="mb-1 text-sm font-medium">
-              Email
-            </label>
-            <input
-              onChange={(e) => setEmail(e.target.value)}
-              type="text"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
+        <form onSubmit={handleRegister} className="flex flex-col space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="mb-1 text-sm font-medium">
+                Email
+              </label>
+              <input
+                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                name="email"
+                id="email"
+                placeholder="Email"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="name" className="mb-1 text-sm font-medium">
+                Name
+              </label>
+              <input
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Name"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="password" className="mb-1 text-sm font-medium">
+                Password
+              </label>
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="passwordrepeat"
+                className="mb-1 text-sm font-medium"
+              >
+                Password Repeat
+              </label>
+              <input
+                onChange={(e) => setPasswordRepeat(e.target.value)}
+                type="password"
+                name="passwordrepeat"
+                id="passwordrepeat"
+                placeholder="Repeat Password"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="name" className="mb-1 text-sm font-medium">
-              Name
-            </label>
-            <input
-              onChange={(e) => setName(e.target.value)}
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Name"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="password" className="mb-1 text-sm font-medium">
-              Password
-            </label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
-          </div>
-          <div className="flex flex-col">
-            <label
-              htmlFor="passwordrepeat"
-              className="mb-1 text-sm font-medium"
-            >
-              Password Repeat
-            </label>
-            <input
-              onChange={(e) => setPasswordRepeat(e.target.value)}
-              type="password"
-              name="passwordrepeat"
-              id="passwordrepeat"
-              placeholder="Repeat Password"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="flex flex-col">
-            <label htmlFor="role" className="mb-1 text-sm font-medium">
-              Role
-            </label>
-            <select
-              onChange={(e) => setRole(e.target.value)}
-              value={role}
-              name="role"
-              id="role"
-              className="p-2 border border-orange-300 rounded-lg "
-            >
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-            </select>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="flex flex-col">
+              <label htmlFor="role" className="mb-1 text-sm font-medium">
+                Role
+              </label>
+              <select
+                onChange={(e) => setRole(e.target.value)}
+                value={role}
+                name="role"
+                id="role"
+                className="p-2 border border-orange-300 rounded-lg "
+              >
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="upload" className="mb-1 text-sm font-medium">
+                Upload Img
+              </label>
+              <input
+                onChange={(e) => setProfilePicture(e.target.files[0])}
+                type="file"
+                name="img"
+                id="img"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
+            <div className="flex flex-col">
+              <label htmlFor="phone" className="mb-1 text-sm font-medium">
+                Phone
+              </label>
+              <input
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="Phone"
+                className="p-2 border border-orange-300 rounded-lg "
+              />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="upload" className="mb-1 text-sm font-medium">
-              Upload Img
-            </label>
-            <input
-              onChange={(e) => setProfilePicture(e.target.files[0])}
-              type="file"
-              name="img"
-              id="img"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
-          </div>
-          <div className="flex flex-col">
-            <label htmlFor="phone" className="mb-1 text-sm font-medium">
-              Phone
-            </label>
-            <input
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              type="text"
-              name="phone"
-              id="phone"
-              placeholder="Phone"
-              className="p-2 border border-orange-300 rounded-lg "
-            />
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="p-2 bg-orange-300 rounded-lg hover:bg-orange-500 bg-"
-        >
-          Sign Up
-        </button>
-        <p className="text-center">
-          Already have an account?{" "}
-          <Link className="text-orange-500" to="/login">
-            Log In
-          </Link>
-        </p>
-      </form>
-    </div>
+          <button
+            type="submit"
+            className="p-2 bg-orange-300 rounded-lg hover:bg-orange-500 bg-"
+          >
+            Sign Up
+          </button>
+          <p className="text-center">
+            Already have an account?{" "}
+            <Link className="text-orange-500" to="/login">
+              Log In
+            </Link>
+          </p>
+        </form>
+      </div>
+    </Modal>
   );
 };
 

@@ -27,12 +27,12 @@ const Promo = () => {
 
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
-      <h1>Coupon Promo</h1>
+      <h1 className="mb-2 text-3xl font-bold">Coupon Promo</h1>
 
       <div className="grid grid-cols-1 gap-5 md:grid md:grid-cols-3">
         {promo.map((item) => {
           return (
-            <div className="flex gap-2 border rounded-xl">
+            <div key={item.id} className="flex gap-2 border rounded-xl">
               <div>
                 <img
                   className="w-[200px] rounded-l-xl"

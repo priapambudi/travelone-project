@@ -4,6 +4,8 @@ import Category from "../components/Category";
 import Experience from "../components/Experience";
 import Activity from "../components/Activity";
 import Promo from "../components/Promo";
+import Testimony from "../components/Testimony";
+import Footer from "../components/Footer";
 
 const Home = () => {
   return (
@@ -14,6 +16,8 @@ const Home = () => {
       <Experience />
       <Activity />
       <Promo />
+      <Testimony />
+      <Footer />
     </div>
   );
 };

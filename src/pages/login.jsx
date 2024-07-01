@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Modal from "../components/Modal";
 
-const Login = ({ onClose }) => {
+const Login = ({ onClose, isVisible }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(null);
@@ -50,47 +51,54 @@ const Login = ({ onClose }) => {
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Log in</h1>
-      <p className="mt-4 text-sm"> If you already a member, easily log in</p>
+    <Modal
+      onClose={onClose}
+      isVisible={isVisible}
+      width="w-[400px]"
+      height="h-[550px]"
+    >
+      <div>
+        <h1 className="text-3xl font-bold">Log in</h1>
+        <p className="mt-4 text-sm"> If you already a member, easily log in</p>
 
-      {/* {token && <p className="mt-4 text-sm"> Successfully login </p>} */}
-      {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+        {token && <p className="mt-4 text-sm"> Successfully login </p>}
+        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
 
-      <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-5">
-        <label htmlFor="email">Email</label>
-        <input
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          name="email"
-          id="email"
-          placeholder="Input email"
-          className="p-2 border border-orange-300 rounded-lg"
-        />
+        <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-5">
+          <label htmlFor="email">Email</label>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            name="email"
+            id="email"
+            placeholder="Input email"
+            className="p-2 border border-orange-300 rounded-lg"
+          />
 
-        <label htmlFor="password">Password</label>
-        <input
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Input password"
-          className="p-2 border border-orange-300 rounded-lg"
-        />
-        <button
-          type="submit"
-          className="p-2 mt-2 font-semibold bg-orange-300 rounded-lg hover:bg-orange-500"
-        >
-          Log In
-        </button>
-        <p className="text-center">
-          Don't have an account yet?{" "}
-          <Link className="text-orange-500" to="/register">
-            Sign Up
-          </Link>
-        </p>
-      </form>
-    </div>
+          <label htmlFor="password">Password</label>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Input password"
+            className="p-2 border border-orange-300 rounded-lg"
+          />
+          <button
+            type="submit"
+            className="p-2 mt-2 font-semibold bg-orange-300 rounded-lg hover:bg-orange-500"
+          >
+            Log In
+          </button>
+          <p className="text-center">
+            Don't have an account yet?{" "}
+            <Link className="text-orange-500" to="/register">
+              Sign Up
+            </Link>
+          </p>
+        </form>
+      </div>
+    </Modal>
   );
 };
 
