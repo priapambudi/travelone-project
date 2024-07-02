@@ -23,7 +23,7 @@ const Promo = () => {
 
   useEffect(() => {
     getPromo();
-  });
+  }, []);
 
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">

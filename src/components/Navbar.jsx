@@ -15,6 +15,7 @@ const Navbar = () => {
 
   const token = localStorage.getItem("token");
   const img = localStorage.getItem("img");
+  const role = localStorage.getItem("role");
 
   const navigate = useNavigate();
 
@@ -61,9 +62,6 @@ const Navbar = () => {
       navigate("/");
     } catch (error) {
       console.log(error);
-
-      // localStorage.clear();
-      // navigate("/");
     }
   };
 
@@ -71,8 +69,8 @@ const Navbar = () => {
     <div>
       <nav className="flex justify-between items-center w-[90%] mx-auto z-10 p-4">
         <Link to="/" className="flex items-center gap-2 ">
-          <img className="w-16" src="/trip.png" alt="" />
-          <h1 className="h-full text-3xl">
+          <img className="w-10 md:w-16" src="/trip.png" alt="" />
+          <h1 className="h-full text-xl md:text-3xl">
             Travel<span className="font-semibold text-orange-500">o</span>ne
           </h1>
         </Link>
@@ -106,11 +104,20 @@ const Navbar = () => {
               {dropDownOpen && (
                 <div className="absolute px-4 py-2 z-10 bg-orange-100 rounded right-5 top-20 w-[200px] dropdown-menu">
                   <ul>
-                    <li className="py-2">My Profile</li>
+                    <Link to="/profile">
+                      <li className="py-1 hover:text-orange-400">My Profile</li>
+                    </Link>
+                    {role === "admin" ? (
+                      <Link to="/admin">
+                        <li className="py-1 hover:text-orange-400">
+                          Dashboard
+                        </li>
+                      </Link>
+                    ) : null}
                     <li>
                       <button
                         onClick={handleLogOut}
-                        className="hidden px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700"
+                        className="hidden px-3 py-1 mt-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700"
                       >
                         Logout
                       </button>
@@ -137,6 +144,45 @@ const Navbar = () => {
             </div>
           )}
 
+          {/* Mobile Navbar */}
+          {token && (
+            <div className="md:hidden" ref={dropDownRef}>
+              <div className="menu-trigger" onClick={handleProfileClick}>
+                <img
+                  className="rounded-full cursor-pointer w-14 h-14"
+                  src={img}
+                  alt=""
+                />
+              </div>
+
+              {dropDownOpen && (
+                <div className="absolute px-4 py-2 z-10 bg-orange-100 rounded right-5 top-20 w-[200px] dropdown-menu">
+                  <ul>
+                    <Link to="/profile">
+                      <li className="py-1 hover:text-orange-400">My Profile</li>
+                    </Link>
+                    {role === "admin" ? (
+                      <Link to="/admin">
+                        <li className="py-1 hover:text-orange-400">
+                          Dashboard
+                        </li>
+                      </Link>
+                    ) : null}
+                    <li>
+                      <button
+                        onClick={handleLogOut}
+                        className="block px-3 py-1 mt-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:hidden hover:border-orange-700 hover:text-orange-700"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+          {/* Mobile Navbar */}
+
           <button className="md:hidden " onClick={toggleNavbar}>
             <img src="/menu.png" alt="" />
           </button>
@@ -144,7 +190,6 @@ const Navbar = () => {
       </nav>
 
       {/* Mobile Navbar */}
-
       {isOpen && (
         <div
           ref={navbarRef}
@@ -158,29 +203,21 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-col items-center gap-4 mt-10">
-            {token ? (
-              <img
-                className="rounded-full cursor-pointer w-14 h-14"
-                src={img}
-                alt=""
-              />
-            ) : (
-              <div className="flex justify-center gap-4 mb-4">
-                <button
-                  onClick={() => setShowModalLogin(true)}
-                  className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700"
-                >
-                  Login
-                </button>
-                <div className="w-px mx-2 bg-gray-400 h-15"></div>
-                <button
-                  onClick={() => setShowModalRegister(true)}
-                  className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700"
-                >
-                  Sign Up
-                </button>
-              </div>
-            )}
+            <div className="flex justify-center gap-4 mb-4">
+              <button
+                onClick={() => setShowModalLogin(true)}
+                className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700"
+              >
+                Login
+              </button>
+              <div className="w-px mx-2 bg-gray-400 h-15"></div>
+              <button
+                onClick={() => setShowModalRegister(true)}
+                className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700"
+              >
+                Sign Up
+              </button>
+            </div>
 
             <ul className="flex flex-col items-center w-full gap-4">
               <li className="w-full py-2 text-xl font-medium text-center">
