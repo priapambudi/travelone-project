@@ -11,7 +11,7 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
   const element = useRoutes(routeList);
-  return <div>{element}</div>;
+  return element;
 };
 
 // const App = () => {
