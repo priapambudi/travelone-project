@@ -108,7 +108,7 @@ const Navbar = () => {
                       <li className="py-1 hover:text-orange-400">My Profile</li>
                     </Link>
                     {role === "admin" ? (
-                      <Link to="/admin">
+                      <Link to="/dashboard">
                         <li className="py-1 hover:text-orange-400">
                           Dashboard
                         </li>
@@ -162,7 +162,7 @@ const Navbar = () => {
                       <li className="py-1 hover:text-orange-400">My Profile</li>
                     </Link>
                     {role === "admin" ? (
-                      <Link to="/admin">
+                      <Link to="/dashboard">
                         <li className="py-1 hover:text-orange-400">
                           Dashboard
                         </li>
