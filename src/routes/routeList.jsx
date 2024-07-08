@@ -5,6 +5,8 @@ import Register from "../pages/register";
 import Profile from "../pages/profile";
 import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../components/EditProfile";
+import HomeDash from "../pages/dashboard/homeDash";
+import User from "../pages/dashboard/user";
 
 export const routeList = [
   {
@@ -30,5 +32,13 @@ export const routeList = [
   {
     path: "/actDetail/:id",
     element: <ActivityDetail />,
+  },
+  {
+    path: "/dashboard",
+    element: <HomeDash />,
+  },
+  {
+    path: "dashboard/user",
+    element: <User />,
   },
 ];

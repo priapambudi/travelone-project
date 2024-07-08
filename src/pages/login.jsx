@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Modal from "../components/Modal";
+// import Modal from "../components/Modal";
 
-const Login = ({ onClose, isVisible }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(null);
@@ -41,7 +41,7 @@ const Login = ({ onClose, isVisible }) => {
       localStorage.setItem("role", res.data.data.role);
       localStorage.setItem("img", res.data.data.profilePictureUrl);
 
-      onClose();
+      // onClose();
 
       navigate("/");
     } catch (error) {
@@ -51,54 +51,61 @@ const Login = ({ onClose, isVisible }) => {
   };
 
   return (
-    <Modal
-      onClose={onClose}
-      isVisible={isVisible}
-      width="w-[400px]"
-      height="h-[550px]"
-    >
-      <div>
-        <h1 className="text-3xl font-bold">Log in</h1>
-        <p className="mt-4 text-sm"> If you already a member, easily log in</p>
+    <div className="flex items-center justify-center min-h-screen p-6">
+      <div className="flex rounded-lg shadow-xl md:flex-row md:gap-4">
+        <div className="flex flex-col justify-center p-6">
+          <Link to="/">
+            <img className="mx-auto w-[50px] h-[50px]" src="/trip.png" alt="" />
+          </Link>
+          <h1 className="text-3xl font-bold">Log in</h1>
 
-        {token && <p className="mt-4 text-sm"> Successfully login </p>}
-        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
-
-        <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-5">
-          <label htmlFor="email">Email</label>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            name="email"
-            id="email"
-            placeholder="Input email"
-            className="p-2 border border-orange-300 rounded-lg"
-          />
-
-          <label htmlFor="password">Password</label>
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Input password"
-            className="p-2 border border-orange-300 rounded-lg"
-          />
-          <button
-            type="submit"
-            className="p-2 mt-2 font-semibold bg-orange-300 rounded-lg hover:bg-orange-500"
-          >
-            Log In
-          </button>
-          <p className="text-center">
-            Don't have an account yet?{" "}
-            <Link className="text-orange-500" to="/register">
-              Sign Up
-            </Link>
+          <p className="mt-4 text-sm">
+            {" "}
+            If you already a member, easily log in
           </p>
-        </form>
+
+          {token && <p className="mt-4 text-sm"> Successfully login </p>}
+          {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+
+          <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-5">
+            <label htmlFor="email">Email</label>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              name="email"
+              id="email"
+              placeholder="Input email"
+              className="p-2 border border-orange-300 rounded-lg"
+            />
+
+            <label htmlFor="password">Password</label>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Input password"
+              className="p-2 border border-orange-300 rounded-lg"
+            />
+            <button
+              type="submit"
+              className="p-2 mt-2 font-semibold bg-orange-300 rounded-lg hover:bg-orange-500"
+            >
+              Log In
+            </button>
+            <p className="text-center">
+              Don't have an account yet?{" "}
+              <Link className="text-orange-500" to="/register">
+                Sign Up
+              </Link>
+            </p>
+          </form>
+        </div>
+        <div className="hidden w-[500px] md:block">
+          <img src="/login.png" alt="" />
+        </div>
       </div>
-    </Modal>
+    </div>
   );
 };
 

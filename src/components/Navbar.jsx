@@ -2,14 +2,12 @@ import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import Register from "../pages/register";
-import Login from "../pages/login";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navbarRef = useRef(null);
-  const [showModalRegister, setShowModalRegister] = useState(false);
-  const [showModalLogin, setShowModalLogin] = useState(false);
+  // const [showModalRegister, setShowModalRegister] = useState(false);
+  // const [showModalLogin, setShowModalLogin] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const dropDownRef = useRef(null);
 
@@ -128,19 +126,17 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex">
-              <button
-                onClick={() => setShowModalLogin(true)}
-                className="hidden px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700"
-              >
-                Login
-              </button>
+              <Link to="/login">
+                <button className="hidden px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700">
+                  Login
+                </button>
+              </Link>
               <div className="hidden w-px mx-2 bg-gray-400 md:block h-15"></div>
-              <button
-                onClick={() => setShowModalRegister(true)}
-                className="hidden px-4 py-2 font-bold text-white bg-orange-500 rounded-full md:block hover:bg-orange-700"
-              >
-                Sign Up
-              </button>
+              <Link to="/register">
+                <button className="hidden px-4 py-2 font-bold text-white bg-orange-500 rounded-full md:block hover:bg-orange-700">
+                  Sign Up
+                </button>
+              </Link>
             </div>
           )}
 
@@ -203,21 +199,34 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-col items-center gap-4 mt-10">
-            <div className="flex justify-center gap-4 mb-4">
-              <button
-                onClick={() => setShowModalLogin(true)}
-                className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700"
-              >
-                Login
-              </button>
+            {token ? null : (
+              <div className="flex justify-center gap-4 mb-4">
+                <Link to="/login">
+                  <button className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700">
+                    Login
+                  </button>
+                </Link>
+                <div className="w-px mx-2 bg-gray-400 h-15"></div>
+                <Link to="/register">
+                  <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700">
+                    Sign Up
+                  </button>
+                </Link>
+              </div>
+            )}
+            {/* <div className="flex justify-center gap-4 mb-4">
+              <Link to="/login">
+                <button className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700">
+                  Login
+                </button>
+              </Link>
               <div className="w-px mx-2 bg-gray-400 h-15"></div>
-              <button
-                onClick={() => setShowModalRegister(true)}
-                className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700"
-              >
-                Sign Up
-              </button>
-            </div>
+              <Link to="/register">
+                <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700">
+                  Sign Up
+                </button>
+              </Link>
+            </div> */}
 
             <ul className="flex flex-col items-center w-full gap-4">
               <li className="w-full py-2 text-xl font-medium text-center">
@@ -236,16 +245,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-
-      <Register
-        onClose={() => setShowModalRegister(false)}
-        isVisible={showModalRegister}
-      />
-
-      <Login
-        onClose={() => setShowModalLogin(false)}
-        isVisible={showModalLogin}
-      />
     </div>
   );
 };
