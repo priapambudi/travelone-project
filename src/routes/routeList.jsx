@@ -7,6 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../components/EditProfile";
 import HomeDash from "../pages/dashboard/homeDash";
 import User from "../pages/dashboard/user";
+import PromoDetail from "../pages/promoDetail";
 
 export const routeList = [
   {
@@ -32,6 +33,14 @@ export const routeList = [
   {
     path: "/actDetail/:id",
     element: <ActivityDetail />,
+  },
+  {
+    path: "/promoDetail/:id",
+    element: (
+      <ProtectedRoute>
+        <PromoDetail />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard",
