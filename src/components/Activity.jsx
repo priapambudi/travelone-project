@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import { Link } from "react-router-dom";
 
 const Activity = () => {
@@ -28,8 +29,22 @@ const Activity = () => {
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
       <div>
-        <div>
-          <h1 className="mb-3 text-3xl font-bold">Find The Best Activities</h1>
+        <div className="flex items-center justify-between md:mr-20 md:flex-row">
+          <div>
+            <h1 className="mb-3 text-3xl font-bold">
+              Find The Best Activities
+            </h1>
+            <p className="mb-5 text-left text-gray-500">
+              Explore hidden gems, conquer new challenges <br /> and create an
+              authentic travel experience.
+            </p>
+          </div>
+          <Link className="hidden md:block" to="">
+            <KeyboardDoubleArrowRightOutlinedIcon
+              sx={{ fontSize: 60 }}
+              className="mx-auto text-orange-400 border border-orange-300 rounded-full "
+            />
+          </Link>
         </div>
         <div className="grid grid-cols-1 gap-5 md:grid md:grid-cols-3">
           {activity.map((item) => {
@@ -59,6 +74,12 @@ const Activity = () => {
           })}
         </div>
       </div>
+      <Link className="flex mt-4 md:hidden" to="">
+        <KeyboardDoubleArrowRightOutlinedIcon
+          sx={{ fontSize: 60 }}
+          className="mx-auto text-orange-400 border border-orange-300 rounded-full "
+        />
+      </Link>
     </div>
   );
 };

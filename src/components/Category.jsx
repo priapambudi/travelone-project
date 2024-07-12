@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
+import { Link } from "react-router-dom";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
@@ -14,7 +16,8 @@ const Category = () => {
         }
       );
       //   console.log(res);
-      setCategories(res.data.data);
+      const selectedCategories = res.data.data.slice(0, 3);
+      setCategories(selectedCategories);
     } catch (error) {
       console.log(error);
     }
@@ -25,11 +28,21 @@ const Category = () => {
   }, []);
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
-      <h1 className="mb-2 text-3xl font-bold text-left">Category</h1>
-      <p className="mb-5 text-left text-gray-500">
-        Here are lots of interesting destinations to visit, <br /> but don’t be
-        confused—they’re already grouped <br /> by category.
-      </p>
+      <div className="flex items-center justify-between md:mr-20 md:flex-row">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold text-left">Category</h1>
+          <p className="mb-5 text-left text-gray-500">
+            Here are lots of interesting destinations to visit, <br /> but don’t
+            be confused—they’re already grouped <br /> by category.
+          </p>
+        </div>
+        <Link className="hidden md:block" to="">
+          <KeyboardDoubleArrowRightOutlinedIcon
+            sx={{ fontSize: 60 }}
+            className="mx-auto text-orange-400 border border-orange-300 rounded-full "
+          />
+        </Link>
+      </div>
       <div className="grid grid-cols-1 gap-5 md:grid md:grid-cols-3">
         {categories.map((category) => (
           <div
@@ -47,6 +60,12 @@ const Category = () => {
           </div>
         ))}
       </div>
+      <Link className="flex mt-4 md:hidden" to="">
+        <KeyboardDoubleArrowRightOutlinedIcon
+          sx={{ fontSize: 60 }}
+          className="mx-auto text-orange-400 border border-orange-300 rounded-full "
+        />
+      </Link>
     </div>
   );
 };
