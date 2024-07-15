@@ -90,7 +90,7 @@ const Navbar = () => {
               <Link to="/category">Category</Link>
             </li>
             <li>
-              <Link to="/activity">Activity</Link>
+              <Link to="/act-home">Activity</Link>
             </li>
             <li>
               <Link to="/promo">Promo</Link>

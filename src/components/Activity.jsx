@@ -16,7 +16,8 @@ const Activity = () => {
         }
       );
       //   console.log(res);
-      setActivity(res.data.data);
+      const selectedActivity = res.data.data.slice(0, 3);
+      setActivity(selectedActivity);
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +40,7 @@ const Activity = () => {
               authentic travel experience.
             </p>
           </div>
-          <Link className="hidden md:block" to="">
+          <Link className="hidden md:block" to="/act-home">
             <KeyboardDoubleArrowRightOutlinedIcon
               sx={{ fontSize: 60 }}
               className="mx-auto text-orange-400 border border-orange-300 rounded-full "
@@ -74,7 +75,7 @@ const Activity = () => {
           })}
         </div>
       </div>
-      <Link className="flex mt-4 md:hidden" to="">
+      <Link className="flex mt-4 md:hidden" to="/act-home">
         <KeyboardDoubleArrowRightOutlinedIcon
           sx={{ fontSize: 60 }}
           className="mx-auto text-orange-400 border border-orange-300 rounded-full "

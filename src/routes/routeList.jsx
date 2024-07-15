@@ -1,13 +1,14 @@
-import ActivityDetail from "../pages/activityDetail";
+import ActivityHome from "../pages/activityHome";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
 import Profile from "../pages/profile";
 import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../components/EditProfile";
+import PromoDetail from "../pages/promoDetail";
 import HomeDash from "../pages/dashboard/homeDash";
 import User from "../pages/dashboard/user";
-import PromoDetail from "../pages/promoDetail";
+import Category from "../pages/dashboard/category";
 
 export const routeList = [
   {
@@ -31,8 +32,8 @@ export const routeList = [
     element: <Register />,
   },
   {
-    path: "/actDetail/:id",
-    element: <ActivityDetail />,
+    path: "/act-home/",
+    element: <ActivityHome />,
   },
   {
     path: "/promoDetail/:id",
@@ -49,5 +50,9 @@ export const routeList = [
   {
     path: "dashboard/user",
     element: <User />,
+  },
+  {
+    path: "dashboard/category",
+    element: <Category />,
   },
 ];
