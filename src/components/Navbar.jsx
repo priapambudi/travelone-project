@@ -5,14 +5,12 @@ import { useState, useRef, useEffect } from "react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const navbarRef = useRef(null);
-  // const [showModalRegister, setShowModalRegister] = useState(false);
-  // const [showModalLogin, setShowModalLogin] = useState(false);
   const [dropDownOpen, setDropDownOpen] = useState(false);
+  const [profileImg, setProfileImg] = useState(localStorage.getItem("img"));
+  const navbarRef = useRef(null);
   const dropDownRef = useRef(null);
 
   const token = localStorage.getItem("token");
-  const img = localStorage.getItem("img");
   const role = localStorage.getItem("role");
 
   const navigate = useNavigate();
@@ -38,19 +36,30 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setProfileImg(localStorage.getItem("img"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   const handleProfileClick = () => {
     setDropDownOpen(!dropDownOpen);
   };
 
   const handleLogOut = async () => {
     try {
-      const res = await axios.get(
+      await axios.get(
         "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/logout",
         {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             "Content-Type": "application/json",
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pZnRhaGZhcmhhbkBnbWFpbC5jb20iLCJ1c2VySWQiOiI5NWE4MDNjMy1iNTFlLTQ3YTAtOTBkYi0yYzJmM2Y0ODE1YTkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2Nzk4NDM0NDR9.ETsN6dCiC7isPReiQyHCQxya7wzj05wz5zruiFXLx0k`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -94,7 +103,7 @@ const Navbar = () => {
               <div className="menu-trigger" onClick={handleProfileClick}>
                 <img
                   className="rounded-full cursor-pointer w-14 h-14"
-                  src={img}
+                  src={profileImg}
                   alt=""
                 />
               </div>
@@ -146,7 +155,7 @@ const Navbar = () => {
               <div className="menu-trigger" onClick={handleProfileClick}>
                 <img
                   className="rounded-full cursor-pointer w-14 h-14"
-                  src={img}
+                  src={profileImg}
                   alt=""
                 />
               </div>

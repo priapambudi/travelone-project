@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 const profile = () => {
   const [profile, setProfile] = useState({});
+  const token = localStorage.getItem("token");
 
   const getProfile = async () => {
     try {
@@ -14,8 +15,7 @@ const profile = () => {
         "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/user",
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaTFAZ21haWwuY29tIiwidXNlcklkIjoiMmNmZWM1ODctMDAxMC00MjJiLWE5MTgtZDIzODg1MGI4YzgyIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NDUxNzMyfQ.orH7mF3aBfbPqaPyUvLfgrqqNCIAG6yK7iM6w02NSIw",
+            Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
         }

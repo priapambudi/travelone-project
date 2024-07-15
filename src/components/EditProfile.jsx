@@ -1,10 +1,8 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const EditProfile = () => {
-  //   const { state } = useLocation();
-  //   const { profile } = state || {};
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -13,6 +11,8 @@ const EditProfile = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const token = localStorage.getItem("token");
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -25,8 +25,7 @@ const EditProfile = () => {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             "Content-Type": "multipart/form-data",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pZnRhaGZhcmhhbkBnbWFpbC5jb20iLCJ1c2VySWQiOiI5NWE4MDNjMy1iNTFlLTQ3YTAtOTBkYi0yYzJmM2Y0ODE1YTkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2Nzk4NDM0NDR9.ETsN6dCiC7isPReiQyHCQxya7wzj05wz5zruiFXLx0k",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -58,8 +57,7 @@ const EditProfile = () => {
         {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaTFAZ21haWwuY29tIiwidXNlcklkIjoiMmNmZWM1ODctMDAxMC00MjJiLWE5MTgtZDIzODg1MGI4YzgyIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzE5NDUxNzMyfQ.orH7mF3aBfbPqaPyUvLfgrqqNCIAG6yK7iM6w02NSIw",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -67,31 +65,18 @@ const EditProfile = () => {
       //   console.log(res);
       setSuccess(res.data.message || "Profile updated successfully");
 
-      //   if (res.data.code === 200) {
-      //     localStorage.setItem(
-      //       "profile",
-      //       JSON.stringify({
-      //         name: name,
-      //         email: email,
-      //         phoneNumber: phoneNumber,
-      //         profilePictureUrl: profilePictureUrl,
-      //       })
-      //     );
-      //   }
+      // update local storage
+      const updatedProfile = {
+        profilePictureUrl: profilePictureUrl,
+      };
+
+      localStorage.setItem("img", updatedProfile.profilePictureUrl);
 
       navigate("/profile");
     } catch (error) {
       setError(error.response.data.message || "Failed to update profile");
     }
   };
-
-  //   useEffect(() => {
-  //     if (profile) {
-  //       setName(profile.name);
-  //       setEmail(profile.email);
-  //       setPhoneNumber(profile.phoneNumber);
-  //     }
-  //   }, [profile]);
 
   return (
     <div>
