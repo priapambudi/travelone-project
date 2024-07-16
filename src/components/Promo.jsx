@@ -97,7 +97,7 @@ const Promo = () => {
                       <p className="text-xs">{item.description}</p>
                     </div>
                     <div className="flex justify-end mb-2 mr-2">
-                      <Link to={`/promoDetail/${item.id}`}>
+                      <Link to={"/promo-home"}>
                         <p className="px-2 py-1 text-xs font-thin text-orange-500 hover:text-orange-700 w-fit">
                           Detail
                         </p>

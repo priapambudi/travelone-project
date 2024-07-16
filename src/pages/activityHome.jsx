@@ -2,6 +2,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const ActivityHome = () => {
   const [categories, setCategories] = useState([]);
@@ -67,6 +68,8 @@ const ActivityHome = () => {
         <h1 className="mb-2 text-2xl font-bold md:text-center md:text-3xl">
           Popular Activities
         </h1>
+
+        {/* TODO: Implement category selection */}
         <div className="flex flex-wrap gap-3 md:justify-center">
           {categories.map((item) => {
             const isSelected = selectedCategoryId === item.id;
@@ -83,23 +86,27 @@ const ActivityHome = () => {
             );
           })}
         </div>
+
+        {/* TODO: Implement activity list */}
         {selectedCategoryId && (
           <div className="mt-6">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
               {activitiesByCategory.map((activity) => (
-                <div key={activity.id} className="relative p-2">
-                  <div className="overflow-hidden rounded-md cursor-pointer">
-                    <img
-                      src={activity.imageUrls[0]}
-                      alt={activity.title}
-                      className="w-full h-auto transition-transform duration-500 bg-cover hover:scale-110 "
-                    />
-                  </div>
+                <Link to={`/act-detail/${activity.id}`} key={activity.id}>
+                  <div className="relative p-2">
+                    <div className="overflow-hidden rounded-md cursor-pointer">
+                      <img
+                        src={activity.imageUrls[0]}
+                        alt={activity.title}
+                        className="w-full h-full transition-transform duration-500 bg-cover hover:scale-110 "
+                      />
+                    </div>
 
-                  <h3 className="absolute left-0 right-0 flex items-center justify-center font-medium text-white bottom-5">
-                    {activity.title}
-                  </h3>
-                </div>
+                    <h3 className="absolute left-0 right-0 flex items-center justify-center font-medium text-white bottom-5">
+                      {activity.title}
+                    </h3>
+                  </div>
+                </Link>
               ))}
             </div>
             {activitiesByCategory.length === 0 && (

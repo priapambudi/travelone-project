@@ -63,7 +63,7 @@ const Activity = () => {
                   <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">Rp.{item.price}</p>
                     <Link
-                      to={`/actDetail/${item.id}`}
+                      to={`/act-detail/${item.id}`}
                       className="px-3 py-1 text-white bg-orange-500 rounded-full"
                     >
                       View

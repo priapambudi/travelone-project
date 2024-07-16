@@ -93,7 +93,7 @@ const Navbar = () => {
               <Link to="/act-home">Activity</Link>
             </li>
             <li>
-              <Link to="/promo">Promo</Link>
+              <Link to="/promo-home">Promo</Link>
             </li>
           </ul>
         </div>
