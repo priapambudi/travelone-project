@@ -62,7 +62,7 @@ export const routeList = [
     element: <User />,
   },
   {
-    path: "dashboard/category",
+    path: "/dashboard/category",
     element: <Category />,
   },
 ];

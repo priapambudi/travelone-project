@@ -38,28 +38,36 @@ const SidebarDash = () => {
             </Link>
           </li>
           <li className="flex items-center p-1 cursor-pointer hover:bg-orange-100">
-            <PublicOutlinedIcon className="text-orange-400" />
-            <span className="ml-2 text-sm font-semibold text-slate-600">
-              Category
-            </span>
+            <Link to="/dashboard/category">
+              <PublicOutlinedIcon className="text-orange-400" />
+              <span className="ml-2 text-sm font-semibold text-slate-600">
+                Category
+              </span>
+            </Link>
           </li>
           <li className="flex items-center p-1 cursor-pointer hover:bg-orange-100">
-            <AttractionsOutlinedIcon className="text-orange-400" />
-            <span className="ml-2 text-sm font-semibold text-slate-600">
-              Activity
-            </span>
+            <Link to="/dashboard/activity">
+              <AttractionsOutlinedIcon className="text-orange-400" />
+              <span className="ml-2 text-sm font-semibold text-slate-600">
+                Activity
+              </span>
+            </Link>
           </li>
           <li className="flex items-center p-1 cursor-pointer hover:bg-orange-100">
-            <LoyaltyOutlinedIcon className="text-orange-400" />
-            <span className="ml-2 text-sm font-semibold text-slate-600">
-              Promo
-            </span>
+            <Link to="/dashboard/promo">
+              <LoyaltyOutlinedIcon className="text-orange-400" />
+              <span className="ml-2 text-sm font-semibold text-slate-600">
+                Promo
+              </span>
+            </Link>
           </li>
           <li className="flex items-center p-1 cursor-pointer hover:bg-orange-100">
-            <BrokenImageOutlinedIcon className="text-orange-400" />
-            <span className="ml-2 text-sm font-semibold text-slate-600">
-              Banner
-            </span>
+            <Link to="/dashboard/banner">
+              <BrokenImageOutlinedIcon className="text-orange-400" />
+              <span className="ml-2 text-sm font-semibold text-slate-600">
+                Banner
+              </span>
+            </Link>
           </li>
         </ul>
       </div>
