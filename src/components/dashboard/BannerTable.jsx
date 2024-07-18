@@ -5,23 +5,14 @@ import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
 import EditBtn from "../../basic_components/EditBtn";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function CategoryTable() {
+export default function BannerTable() {
   const token = localStorage.getItem("token");
-  const [categories, setCategories] = useState([]);
+  const [banner, setBanner] = useState([]);
 
-  // const [open, setOpen] = useState(false);
-  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  // const [name, setName] = useState("");
-  // const [imageUrl, setImageUrl] = useState(null);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  // const [selectedCategoryImage, setSelectedCategoryImage] = useState(null);
-  // const [categoryToDelete, setCategoryToDelete] = useState(null);
-  // const [openCreate, setOpenCreate] = useState(false);
-
-  const columns = (handleClickOpen, handleDeleteOpen) => [
+  const columns = () => [
     // { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "Name", width: 130 },
     {
@@ -53,43 +44,42 @@ export default function CategoryTable() {
       renderCell: (params) => (
         <div className="flex items-center h-full gap-5">
           <EditBtn
-            editAction={editCategory}
-            modalTitle="Category"
-            formFields={CategoryFormFields}
+            editAction={editBanner}
+            modalTitle="Banner"
+            formFields={bannerFormFields}
             initialData={params.row}
-            refreshTable={getCategory}
+            refreshTable={getBanner}
           />
           <DeleteBtn
-            deleteAction={deleteCategory}
+            deleteAction={deleteBanner}
             item={params.row}
             itemNameKey="name"
-            refreshTable={getCategory}
+            refreshTable={getBanner}
           />
         </div>
       ),
     },
   ];
 
-  const getCategory = async () => {
+  const getBanner = async () => {
     try {
       const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banners",
         {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
         }
       );
-      //   console.log(res.data.data);
-      setCategories(res.data.data);
+      setBanner(res.data.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const createCategory = async (payload, token) => {
+  const createBanner = async (payload, token) => {
     return await axios.post(
-      "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-category",
+      "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-banner",
       payload,
       {
         headers: {
@@ -100,10 +90,10 @@ export default function CategoryTable() {
     );
   };
 
-  const editCategory = async (updateData) => {
+  const editBanner = async (updatedData) => {
     return await axios.post(
-      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-category/${updateData.id}`,
-      updateData,
+      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-banner/${updatedData.id}`,
+      updatedData,
       {
         headers: {
           apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
@@ -113,9 +103,9 @@ export default function CategoryTable() {
     );
   };
 
-  const deleteCategory = async (item, token) => {
+  const deleteBanner = async (item, token) => {
     await axios.delete(
-      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/delete-category/${item.id}`,
+      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/delete-banner/${item.id}`,
       {
         headers: {
           apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
@@ -125,13 +115,13 @@ export default function CategoryTable() {
     );
   };
 
-  const CategoryFormFields = [
+  const bannerFormFields = [
     { name: "name", label: "Name", type: "text" },
     { name: "image", label: "Image", type: "file" },
   ];
 
   useEffect(() => {
-    getCategory();
+    getBanner();
   }, []);
 
   return (
@@ -146,15 +136,14 @@ export default function CategoryTable() {
           <SearchOutlinedIcon />
         </div>
         <CreateBtn
-          createAction={createCategory}
-          getItems={getCategory}
-          modalTitle="Category"
-          formFields={CategoryFormFields}
+          createAction={createBanner}
+          getItems={getBanner}
+          modalTitle="Banner"
+          formFields={bannerFormFields}
         />
       </div>
-      <TableSection rows={categories} columns={columns()} />
+      <TableSection rows={banner} columns={columns()} />
 
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );

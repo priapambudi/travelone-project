@@ -9,6 +9,7 @@ import PromoDetail from "../pages/promoDetail";
 import HomeDash from "../pages/dashboard/homeDash";
 import User from "../pages/dashboard/user";
 import Category from "../pages/dashboard/category";
+import Banner from "../pages/dashboard/banner";
 import ActivityDetail from "../pages/activityDetail";
 import PromoHome from "../pages/promoHome";
 
@@ -64,5 +65,9 @@ export const routeList = [
   {
     path: "/dashboard/category",
     element: <Category />,
+  },
+  {
+    path: "/dashboard/banner",
+    element: <Banner />,
   },
 ];
