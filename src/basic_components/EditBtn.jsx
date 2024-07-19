@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Modal from "@mui/material/Modal";
@@ -28,6 +28,10 @@ export default function EditBtn({
   const [formData, setFormData] = useState(initialData || {});
   const [selectedFile, setSelectedFile] = useState(null);
 
+  // useEffect(() => {
+  //   setFormData(initialData || {});
+  // }, [initialData]);
+
   const editBtnOpen = () => {
     setFormData(initialData || {});
     setOpenEdit(true);
@@ -38,9 +42,12 @@ export default function EditBtn({
   };
 
   const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    const fieldType = formFields.find((field) => field.name === name).type;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: fieldType === "number" ? parseFloat(value) : value,
     });
   };
 
@@ -85,7 +92,7 @@ export default function EditBtn({
   return (
     <div>
       <button
-        onClick={() => setOpenEdit(true)}
+        onClick={editBtnOpen}
         className="flex items-center h-8 p-2 border-2 border-blue-400 rounded "
       >
         Edit

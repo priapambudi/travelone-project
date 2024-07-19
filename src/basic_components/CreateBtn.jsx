@@ -76,9 +76,16 @@ export default function CreateBtn({
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+    const fieldType = formFields.find((field) => field.name === name).type;
+
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value,
+      [name]:
+        fieldType === "file"
+          ? files[0]
+          : fieldType === "number"
+          ? parseFloat(value)
+          : value,
     });
   };
 
