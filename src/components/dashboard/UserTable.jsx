@@ -128,7 +128,8 @@ export default function UserTable() {
   }, []);
 
   return (
-    <div className="w-full p-5 h-5/6">
+    <div className="w-full p-5 h-[70%]">
+      <h1 className="mb-2 text-2xl font-bold">Users</h1>
       <DataGrid
         rows={users}
         columns={columns(handleSwitchChange)}
@@ -149,7 +150,7 @@ export default function UserTable() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel} color="primary">
+          <Button onClick={handleCancel} color="warning">
             Cancel
           </Button>
           <Button onClick={updateRole} color="primary" autoFocus>

@@ -28,16 +28,6 @@ export default function PromoTable() {
       ),
     },
     {
-      field: "terms_condition",
-      headerName: "T&C",
-      width: 160,
-    },
-    {
-      field: "promo_code",
-      headerName: "Code",
-      width: 130,
-    },
-    {
       field: "promo_discount_price",
       headerName: "Discount Price",
       width: 110,
@@ -57,7 +47,23 @@ export default function PromoTable() {
           <EditBtn
             editAction={editPromo}
             modalTitle="Promo"
-            formFields={promoFormFields}
+            formFields={[
+              { name: "title", label: "Title", type: "text" },
+              { name: "description", label: "Description", type: "text" },
+              { name: "imageUrl", label: "Image", type: "file" },
+              { name: "terms_condition", label: "T&C", type: "text" },
+              { name: "promo_code", label: "Code", type: "text" },
+              {
+                name: "promo_discount_price",
+                label: "Discount Price",
+                type: "number",
+              },
+              {
+                name: "minimum_claim_price",
+                label: "Min. Claim Price",
+                type: "number",
+              },
+            ]}
             initialData={params.row}
             refreshTable={getPromo}
           />
@@ -89,16 +95,21 @@ export default function PromoTable() {
   };
 
   const createPromo = async (payload) => {
-    return await axios.post(
-      "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-promo",
-      payload,
-      {
-        headers: {
-          apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    try {
+      const res = await axios.post(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-promo",
+        payload,
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res;
+    } catch (error) {
+      return error.response;
+    }
   };
 
   const editPromo = async (updatedData) => {
@@ -126,16 +137,6 @@ export default function PromoTable() {
     );
   };
 
-  const promoFormFields = [
-    { name: "title", label: "Title", type: "text" },
-    { name: "description", label: "Description", type: "text" },
-    { name: "image", label: "Image", type: "file" },
-    { name: "terms_condition", label: "T&C", type: "text" },
-    { name: "promo_code", label: "Code", type: "text" },
-    { name: "promo_discount_price", label: "Discount Price", type: "number" },
-    { name: "minimum_claim_price", label: "Min. Claim Price", type: "number" },
-  ];
-
   useEffect(() => {
     getPromo();
   }, []);
@@ -143,19 +144,29 @@ export default function PromoTable() {
   return (
     <div className="w-full p-5 h-5/6">
       <div className="flex items-center justify-between">
-        <div>
-          <input
-            className="pl-2 border rounded-md border-slate-400"
-            type="text"
-            placeholder="Search..."
-          />
-          <SearchOutlinedIcon />
-        </div>
+        <h1 className="mb-2 text-2xl font-bold">Promo</h1>
+
         <CreateBtn
           createAction={createPromo}
-          getItems={getPromo}
+          refreshTable={getPromo}
           modalTitle="Promo"
-          formFields={promoFormFields}
+          formFields={[
+            { name: "title", label: "Title", type: "text" },
+            { name: "description", label: "Description", type: "text" },
+            { name: "imageUrl", label: "Image", type: "file" },
+            { name: "terms_condition", label: "T&C", type: "text" },
+            { name: "promo_code", label: "Code", type: "text" },
+            {
+              name: "promo_discount_price",
+              label: "Discount Price",
+              type: "number",
+            },
+            {
+              name: "minimum_claim_price",
+              label: "Min. Claim Price",
+              type: "number",
+            },
+          ]}
         />
       </div>
       <TableSection rows={promo} columns={columns()} />

@@ -29,7 +29,8 @@ const ActivityHome = () => {
 
       // Find and set default category
       const defaultCategory = res.data.data.find(
-        (category) => category.name === "INDONESIA"
+        (category) =>
+          category.name === "INDONESIA" || category.name === "Indonesia"
       );
       if (defaultCategory) {
         setSelectedCategoryId(defaultCategory.id);
@@ -64,7 +65,7 @@ const ActivityHome = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="w-[90%] mx-auto p-6 ">
+      <div className="w-[90%] mx-auto p-6">
         <h1 className="mb-2 text-2xl font-bold md:text-center md:text-3xl">
           Popular Activities
         </h1>
@@ -98,7 +99,7 @@ const ActivityHome = () => {
                       <img
                         src={activity.imageUrls[0]}
                         alt={activity.title}
-                        className="w-full h-full transition-transform duration-500 bg-cover hover:scale-110 "
+                        className="w-full h-[150px] md:h-[100px] lg:h-[180px] transition-transform duration-500 bg-cover hover:scale-110 "
                       />
                     </div>
 

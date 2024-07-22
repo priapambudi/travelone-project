@@ -12,16 +12,7 @@ export default function CategoryTable() {
   const token = localStorage.getItem("token");
   const [categories, setCategories] = useState([]);
 
-  // const [open, setOpen] = useState(false);
-  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  // const [name, setName] = useState("");
-  // const [imageUrl, setImageUrl] = useState(null);
-  // const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  // const [selectedCategoryImage, setSelectedCategoryImage] = useState(null);
-  // const [categoryToDelete, setCategoryToDelete] = useState(null);
-  // const [openCreate, setOpenCreate] = useState(false);
-
-  const columns = (handleClickOpen, handleDeleteOpen) => [
+  const columns = () => [
     // { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "Name", width: 130 },
     {
@@ -45,6 +36,22 @@ export default function CategoryTable() {
       headerName: "Updated",
       width: 180,
     },
+    // {
+    //   field: "view",
+    //   headerName: "View",
+    //   sortable: false,
+    //   width: 100,
+    //   renderCell: (params) => (
+    //     <div className="flex items-center h-full">
+    //       <a
+    //         href={`/categories/${params.row.id}`}
+    //         className="text-blue-500 hover:text-blue-700"
+    //       >
+    //         View
+    //       </a>
+    //     </div>
+    //   ),
+    // },
     {
       field: "action",
       headerName: "Action",
@@ -55,7 +62,14 @@ export default function CategoryTable() {
           <EditBtn
             editAction={editCategory}
             modalTitle="Category"
-            formFields={CategoryFormFields}
+            formFields={[
+              { name: "name", label: "Name", type: "text" },
+              {
+                name: "imageUrl",
+                label: "Image",
+                type: "file",
+              },
+            ]}
             initialData={params.row}
             refreshTable={getCategory}
           />
@@ -87,17 +101,22 @@ export default function CategoryTable() {
     }
   };
 
-  const createCategory = async (payload, token) => {
-    return await axios.post(
-      "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-category",
-      payload,
-      {
-        headers: {
-          apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const createCategory = async (payload) => {
+    try {
+      const res = await axios.post(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-category",
+        payload,
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return res;
+    } catch (error) {
+      return error.response;
+    }
   };
 
   const editCategory = async (updateData) => {
@@ -125,11 +144,6 @@ export default function CategoryTable() {
     );
   };
 
-  const CategoryFormFields = [
-    { name: "name", label: "Name", type: "text" },
-    { name: "image", label: "Image", type: "file" },
-  ];
-
   useEffect(() => {
     getCategory();
   }, []);
@@ -137,19 +151,16 @@ export default function CategoryTable() {
   return (
     <div className="w-full p-5 h-5/6">
       <div className="flex items-center justify-between">
-        <div>
-          <input
-            className="pl-2 border rounded-md border-slate-400"
-            type="text"
-            placeholder="Search..."
-          />
-          <SearchOutlinedIcon />
-        </div>
+        <h1 className="mb-2 text-2xl font-bold">Category</h1>
+
         <CreateBtn
           createAction={createCategory}
-          getItems={getCategory}
+          refreshTable={getCategory}
           modalTitle="Category"
-          formFields={CategoryFormFields}
+          formFields={[
+            { name: "name", label: "Name", type: "text" },
+            { name: "imageUrl", label: "Image", type: "file" },
+          ]}
         />
       </div>
       <TableSection rows={categories} columns={columns()} />

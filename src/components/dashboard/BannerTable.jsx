@@ -46,7 +46,10 @@ export default function BannerTable() {
           <EditBtn
             editAction={editBanner}
             modalTitle="Banner"
-            formFields={bannerFormFields}
+            formFields={[
+              { name: "name", label: "Name", type: "text" },
+              { name: "imageUrl", label: "Image", type: "file" },
+            ]}
             initialData={params.row}
             refreshTable={getBanner}
           />
@@ -77,17 +80,23 @@ export default function BannerTable() {
     }
   };
 
-  const createBanner = async (payload, token) => {
-    return await axios.post(
-      "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-banner",
-      payload,
-      {
-        headers: {
-          apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const createBanner = async (payload) => {
+    try {
+      const res = await axios.post(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-banner",
+        payload,
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res;
+    } catch (error) {
+      return error.response;
+    }
   };
 
   const editBanner = async (updatedData) => {
@@ -115,11 +124,6 @@ export default function BannerTable() {
     );
   };
 
-  const bannerFormFields = [
-    { name: "name", label: "Name", type: "text" },
-    { name: "image", label: "Image", type: "file" },
-  ];
-
   useEffect(() => {
     getBanner();
   }, []);
@@ -127,19 +131,15 @@ export default function BannerTable() {
   return (
     <div className="w-full p-5 h-5/6">
       <div className="flex items-center justify-between">
-        <div>
-          <input
-            className="pl-2 border rounded-md border-slate-400"
-            type="text"
-            placeholder="Search..."
-          />
-          <SearchOutlinedIcon />
-        </div>
+        <h1 className="mb-2 text-2xl font-bold">Banner</h1>
         <CreateBtn
           createAction={createBanner}
-          getItems={getBanner}
+          refreshTable={getBanner}
           modalTitle="Banner"
-          formFields={bannerFormFields}
+          formFields={[
+            { name: "name", label: "Name", type: "text" },
+            { name: "imageUrl", label: "Image", type: "file" },
+          ]}
         />
       </div>
       <TableSection rows={banner} columns={columns()} />

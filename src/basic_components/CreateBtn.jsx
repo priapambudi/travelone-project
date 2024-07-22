@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Modal from "@mui/material/Modal";
@@ -18,75 +18,111 @@ const style = {
 
 export default function CreateBtn({
   createAction,
-  getItems,
+  refreshTable,
   modalTitle,
   formFields,
 }) {
   const token = localStorage.getItem("token");
   const [openCreate, setOpenCreate] = useState(false);
   const [formData, setFormData] = useState({});
+  const [categories, setCategories] = useState([]); // new state for categories
 
-  const handleUploadCreate = async () => {
-    if (!formData.image) return null;
-
-    const formDataObj = new FormData();
-    formDataObj.append("image", formData.image);
-
-    try {
-      const res = await axios.post(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/upload-image",
-        formDataObj,
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return res.data.url;
-    } catch (error) {
-      // console.log(error);
-      toast.error("Image upload failed. Please try again.");
-      // return null;
-    }
-  };
-
-  const handleCreate = async (e) => {
-    e.preventDefault();
-
-    const uploadedImageUrl = formData.image ? await handleUploadCreate() : null;
-
-    const payload = {
-      ...formData,
-      imageUrl: uploadedImageUrl,
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(
+          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
+          {
+            headers: {
+              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            },
+          }
+        );
+        setCategories(res.data.data);
+      } catch (error) {
+        toast.error("Failed to fetch categories");
+      }
     };
 
-    try {
-      const res = await createAction(payload, token);
-
-      toast.success(res.data.message || `${modalTitle} created successfully`);
-      setOpenCreate(false); // Close the modal
-      getItems(); // Refresh the table
-    } catch (error) {
-      // console.log(error);
-      toast.error(`${modalTitle} creation failed. Please try again.`);
-    }
-  };
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const fieldType = formFields.find((field) => field.name === name).type;
 
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]:
         fieldType === "file"
-          ? files[0]
+          ? files
           : fieldType === "number"
           ? parseFloat(value)
           : value,
-    });
+    }));
+  };
+
+  const handleUploadFiles = async (files) => {
+    const uploadedUrls = [];
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const res = await axios.post(
+          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/upload-image",
+          formData,
+          {
+            headers: {
+              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        uploadedUrls.push(res.data.url);
+      } catch (error) {
+        // console.log(error);
+        toast.error("Image upload failed. Please try again.");
+        return null;
+      }
+    }
+    return uploadedUrls;
+  };
+
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    const dataToSubmit = { ...formData };
+
+    if (formFields.some((field) => field.type === "file")) {
+      const files = formData.imageUrls || formData.imageUrl;
+      if (files && files.length) {
+        const uploadedImageUrls = await handleUploadFiles(files);
+        if (!uploadedImageUrls) return;
+
+        if (formData.imageUrls) {
+          dataToSubmit.imageUrls = uploadedImageUrls;
+        } else {
+          dataToSubmit.imageUrl = uploadedImageUrls[0]; // Assume only one image for category
+        }
+      }
+    }
+
+    try {
+      const res = await createAction(dataToSubmit);
+
+      if (res.status === 200 || res.status === 201) {
+        toast.success(`${modalTitle} created successfully`);
+        setOpenCreate(false); // Close the modal
+        refreshTable(); // Refresh the table
+      } else {
+        toast.error(`${modalTitle} creation failed. Please try again.`);
+      }
+    } catch (error) {
+      // console.log(error);
+      toast.error(`${modalTitle} creation failed. Please try again.`);
+    }
   };
 
   return (
@@ -106,28 +142,51 @@ export default function CreateBtn({
           />
           <form className="flex flex-col gap-2" onSubmit={handleCreate}>
             <h1 className="text-xl font-bold">Create {modalTitle}</h1>
-            {formFields.map((field) => (
-              <div key={field.name} className="flex flex-col gap-1">
-                <label htmlFor={field.name}>{field.label}</label>
-                {field.type === "file" ? (
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    id={field.name}
-                    onChange={handleChange}
-                  />
-                ) : (
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    id={field.name}
-                    value={formData[field.name] || ""}
-                    onChange={handleChange}
-                    className="w-full p-1 border rounded-md border-slate-400"
-                  />
-                )}
-              </div>
-            ))}
+            <div
+              className={
+                formFields.length > 2
+                  ? "grid grid-cols-2 gap-2"
+                  : "flex flex-col gap-2"
+              }
+            >
+              {formFields.map((field) => (
+                <div key={field.name} className="flex flex-col gap-1">
+                  <label htmlFor={field.name}>{field.label}</label>
+                  {field.type === "file" ? (
+                    <input
+                      type="file"
+                      name={field.name}
+                      id={field.name}
+                      multiple={field.multiple || false}
+                      onChange={handleChange}
+                    />
+                  ) : field.type === "select" ? (
+                    <select
+                      name={field.name}
+                      id={field.name}
+                      onChange={handleChange}
+                      className="w-full p-1 border rounded-md border-slate-400"
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      id={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      className="w-full p-1 border rounded-md border-slate-400"
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
 
             <div className="flex justify-center gap-2 mt-2">
               <button

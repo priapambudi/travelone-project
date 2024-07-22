@@ -98,7 +98,7 @@ const PromoHome = () => {
         aria-describedby="modal-modal-description"
         onClose={handleClose}
       >
-        <Box className="w-[300px] h-[400px] md:w-[500px] md:h-[500px] rounded-lg overflow-hidden shadow-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+        <Box className="w-[300px] h-fit md:w-[500px] rounded-lg overflow-hidden shadow-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
           <HighlightOffOutlinedIcon
             className="absolute cursor-pointer top-2 right-2"
             onClick={handleClose}

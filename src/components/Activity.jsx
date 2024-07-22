@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import { Link } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const Activity = () => {
   const [activity, setActivity] = useState([]);
@@ -54,12 +55,22 @@ const Activity = () => {
                 key={item.id}
                 className="bg-orange-100 border border-orange-200 rounded-lg "
               >
-                <img className="p-3 rounded-3xl" src={item.imageUrls} alt="" />
+                <img
+                  className="w-full h-[250px] p-3 rounded-3xl"
+                  src={item.imageUrls}
+                  alt=""
+                />
                 <div className="p-3">
                   <p className="mb-1 text-xl font-bold">{item.title}</p>
-                  <p className="mb-1 text-sm font-extralight">
-                    {item.city}, {item.province}
-                  </p>
+                  <div className="flex items-center">
+                    <LocationOnIcon
+                      className="text-slate-400"
+                      sx={{ fontSize: 15 }}
+                    />
+                    <p className="mb-1 text-sm font-extralight">
+                      {item.city}, {item.province}
+                    </p>
+                  </div>
                   <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">Rp.{item.price}</p>
                     <Link

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const [banner, setBanner] = useState([]);
@@ -47,9 +48,11 @@ const Hero = () => {
           </div>
 
           <div>
-            <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-600">
-              Get Started
-            </button>
+            <Link to="/act-home">
+              <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-600">
+                Get Started
+              </button>
+            </Link>
           </div>
         </div>
 
