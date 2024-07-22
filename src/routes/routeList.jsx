@@ -12,6 +12,10 @@ import Category from "../pages/dashboard/category";
 import Banner from "../pages/dashboard/banner";
 import Promo from "../pages/dashboard/promo";
 import Activity from "../pages/dashboard/activity";
+import ActivityDetailDashboardPage from "../pages/dashboard/activityDetailDashboardPage";
+import CategoryDetailDashboardPage from "../pages/dashboard/categoryDetailDashboardPage";
+import PromoDetailDashboardPage from "../pages/dashboard/promoDetailDashboardPage";
+import BannerDetailDashboardPage from "../pages/dashboard/bannerDetailDashboardPage";
 import ActivityDetail from "../pages/activityDetail";
 import PromoHome from "../pages/promoHome";
 
@@ -79,5 +83,21 @@ export const routeList = [
   {
     path: "/dashboard/activity",
     element: <Activity />,
+  },
+  {
+    path: "/dashboard/activity/:id",
+    element: <ActivityDetailDashboardPage />,
+  },
+  {
+    path: "/dashboard/category/:id",
+    element: <CategoryDetailDashboardPage />,
+  },
+  {
+    path: "/dashboard/promo/:id",
+    element: <PromoDetailDashboardPage />,
+  },
+  {
+    path: "/dashboard/banner/:id",
+    element: <BannerDetailDashboardPage />,
   },
 ];

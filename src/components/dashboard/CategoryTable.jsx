@@ -5,6 +5,7 @@ import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
 import EditBtn from "../../basic_components/EditBtn";
+import ViewBtn from "../../basic_components/ViewBtn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,22 +37,17 @@ export default function CategoryTable() {
       headerName: "Updated",
       width: 180,
     },
-    // {
-    //   field: "view",
-    //   headerName: "View",
-    //   sortable: false,
-    //   width: 100,
-    //   renderCell: (params) => (
-    //     <div className="flex items-center h-full">
-    //       <a
-    //         href={`/categories/${params.row.id}`}
-    //         className="text-blue-500 hover:text-blue-700"
-    //       >
-    //         View
-    //       </a>
-    //     </div>
-    //   ),
-    // },
+    {
+      field: "view",
+      headerName: "View",
+      sortable: false,
+      width: 100,
+      renderCell: (params) => (
+        <div className="flex items-center h-full">
+          <ViewBtn id={params.row.id} type="category" />
+        </div>
+      ),
+    },
     {
       field: "action",
       headerName: "Action",

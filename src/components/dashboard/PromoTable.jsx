@@ -5,6 +5,7 @@ import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
 import EditBtn from "../../basic_components/EditBtn";
+import ViewBtn from "../../basic_components/ViewBtn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,6 +37,17 @@ export default function PromoTable() {
       field: "minimum_claim_price",
       headerName: "Min. Claim Price",
       width: 120,
+    },
+    {
+      field: "view",
+      headerName: "View",
+      sortable: false,
+      width: 100,
+      renderCell: (params) => (
+        <div className="flex items-center h-full">
+          <ViewBtn id={params.row.id} type="promo" />
+        </div>
+      ),
     },
     {
       field: "action",
