@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Modal from "@mui/material/Modal";
@@ -21,31 +21,11 @@ export default function CreateBtn({
   refreshTable,
   modalTitle,
   formFields,
+  categories,
 }) {
   const token = localStorage.getItem("token");
   const [openCreate, setOpenCreate] = useState(false);
   const [formData, setFormData] = useState({});
-  const [categories, setCategories] = useState([]); // new state for categories
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get(
-          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
-          {
-            headers: {
-              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            },
-          }
-        );
-        setCategories(res.data.data);
-      } catch (error) {
-        toast.error("Failed to fetch categories");
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

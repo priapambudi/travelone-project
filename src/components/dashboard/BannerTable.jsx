@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
@@ -8,13 +7,16 @@ import EditBtn from "../../basic_components/EditBtn";
 import ViewBtn from "../../basic_components/ViewBtn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getBanner } from "../../redux/features/bannerSlice";
 
 export default function BannerTable() {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const [banner, setBanner] = useState([]);
+
+  const { banner } = useSelector((state) => state?.bannerReducer);
 
   const columns = () => [
-    // { field: "id", headerName: "ID", width: 70 },
     { field: "name", headerName: "Name", width: 130 },
     {
       field: "imageUrl",
@@ -31,11 +33,13 @@ export default function BannerTable() {
       field: "createdAt",
       headerName: "Created",
       width: 180,
+      renderCell: (params) => new Date(params.value).toLocaleDateString(),
     },
     {
       field: "updatedAt",
       headerName: "Updated",
       width: 180,
+      renderCell: (params) => new Date(params.value).toLocaleDateString(),
     },
     {
       field: "view",
@@ -63,34 +67,18 @@ export default function BannerTable() {
               { name: "imageUrl", label: "Image", type: "file" },
             ]}
             initialData={params.row}
-            refreshTable={getBanner}
+            refreshTable={() => dispatch(getBanner())}
           />
           <DeleteBtn
             deleteAction={deleteBanner}
             item={params.row}
             itemNameKey="name"
-            refreshTable={getBanner}
+            refreshTable={() => dispatch(getBanner())}
           />
         </div>
       ),
     },
   ];
-
-  const getBanner = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banners",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-      setBanner(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createBanner = async (payload) => {
     try {
@@ -124,7 +112,7 @@ export default function BannerTable() {
     );
   };
 
-  const deleteBanner = async (item, token) => {
+  const deleteBanner = async (item) => {
     await axios.delete(
       `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/delete-banner/${item.id}`,
       {
@@ -137,8 +125,8 @@ export default function BannerTable() {
   };
 
   useEffect(() => {
-    getBanner();
-  }, []);
+    dispatch(getBanner());
+  }, [dispatch]);
 
   return (
     <div className="w-full p-5 h-5/6">
@@ -146,7 +134,7 @@ export default function BannerTable() {
         <h1 className="mb-2 text-2xl font-bold">Banner</h1>
         <CreateBtn
           createAction={createBanner}
-          refreshTable={getBanner}
+          refreshTable={() => dispatch(getBanner())}
           modalTitle="Banner"
           formFields={[
             { name: "name", label: "Name", type: "text" },

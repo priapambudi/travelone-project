@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import Modal from "@mui/material/Modal";
@@ -22,54 +22,29 @@ export default function EditBtn({
   formFields,
   initialData,
   refreshTable,
+  categories,
 }) {
   const token = localStorage.getItem("token");
   const [openEdit, setOpenEdit] = useState(false);
   const [formData, setFormData] = useState(initialData);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedFileURLs, setSelectedFileURLs] = useState([]);
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await axios.get(
-          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
-          {
-            headers: {
-              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            },
-          }
-        );
-        setCategories(res.data.data);
-      } catch (error) {
-        toast.error("Failed to fetch categories");
-      }
-    };
-
-    fetchCategories();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     const fieldType = formFields.find((field) => field.name === name).type;
 
-    setFormData({
-      ...formData,
-      [name]:
-        fieldType === "file"
-          ? files
-          : fieldType === "number"
-          ? parseFloat(value)
-          : value,
-    });
-
     if (fieldType === "file") {
-      const fileURLs = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setSelectedFiles(files);
+      const fileArray = Array.from(files);
+      const fileURLs = fileArray.map((file) => URL.createObjectURL(file));
+      setSelectedFiles(fileArray);
       setSelectedFileURLs(fileURLs);
+      setFormData({ ...formData, [name]: fileArray });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: fieldType === "number" ? parseFloat(value) : value,
+      });
     }
   };
 
@@ -106,22 +81,20 @@ export default function EditBtn({
     e.preventDefault();
     const dataToSubmit = { ...formData };
 
-    if (formFields.some((field) => field.type === "file")) {
-      const files = formData.imageUrls || formData.imageUrl;
-      if (files && files.length) {
-        const uploadedImageUrls = await handleUploadFiles(files);
-        if (!uploadedImageUrls) return;
+    if (selectedFiles.length > 0) {
+      const uploadedImageUrls = await handleUploadFiles(selectedFiles);
+      if (!uploadedImageUrls) return;
 
-        if (formData.imageUrls) {
-          dataToSubmit.imageUrls = uploadedImageUrls;
-        } else {
-          dataToSubmit.imageUrl = uploadedImageUrls[0]; // Assume only one image for category
-        }
+      if (formData.imageUrls) {
+        dataToSubmit.imageUrls = uploadedImageUrls;
+      } else {
+        dataToSubmit.imageUrl = uploadedImageUrls[0]; // Assume only one image for category
       }
     }
 
     try {
       await editAction(dataToSubmit);
+
       toast.success(`${modalTitle} updated successfully`);
       setOpenEdit(false);
       refreshTable();

@@ -1,6 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useEffect } from "react";
 import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
@@ -8,10 +7,16 @@ import EditBtn from "../../basic_components/EditBtn";
 import ViewBtn from "../../basic_components/ViewBtn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getActivity } from "../../redux/features/activitySlice";
+import { getCategory } from "../../redux/features/categorySlice";
 
 export default function ActivityTable() {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const [activity, setActivity] = useState([]);
+
+  const { activity } = useSelector((state) => state?.activityReducer);
+  const { category } = useSelector((state) => state?.categoryReducer);
 
   const columns = () => [
     { field: "title", headerName: "Title", width: 140 },
@@ -64,7 +69,7 @@ export default function ActivityTable() {
               { name: "categoryId", label: "Category Name", type: "select" },
               { name: "title", label: "Title", type: "text" },
               { name: "description", label: "Description", type: "text" },
-              { name: "imageUrl", label: "Image", type: "file" },
+              { name: "imageUrls", label: "Image", type: "file" },
               { name: "price", label: "Price", type: "number" },
               {
                 name: "price_discount",
@@ -80,35 +85,19 @@ export default function ActivityTable() {
               { name: "location_maps", label: "Location Maps", type: "text" },
             ]}
             initialData={params.row}
-            refreshTable={getActivity}
+            refreshTable={() => dispatch(getActivity())}
+            categories={category}
           />
           <DeleteBtn
             deleteAction={deleteActivity}
             item={params.row}
             itemNameKey="title"
-            refreshTable={getActivity}
+            refreshTable={() => dispatch(getActivity())}
           />
         </div>
       ),
     },
   ];
-
-  const getActivity = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/activities",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-
-      setActivity(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createActivity = async (payload) => {
     try {
@@ -129,8 +118,8 @@ export default function ActivityTable() {
   };
 
   const editActivity = async (updateData) => {
-    await axios.put(
-      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/edit-activity/${updateData.id}`,
+    return await axios.post(
+      `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-activity/${updateData.id}`,
       updateData,
       {
         headers: {
@@ -154,7 +143,11 @@ export default function ActivityTable() {
   };
 
   useEffect(() => {
-    getActivity();
+    dispatch(getActivity());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getCategory());
   }, []);
 
   return (
@@ -164,7 +157,7 @@ export default function ActivityTable() {
 
         <CreateBtn
           createAction={createActivity}
-          refreshTable={getActivity}
+          refreshTable={() => dispatch(getActivity())}
           modalTitle="Activity"
           formFields={[
             { name: "categoryId", label: "Category Name", type: "select" },
@@ -185,6 +178,7 @@ export default function ActivityTable() {
               type: "text",
             },
           ]}
+          categories={category}
         />
       </div>
       <TableSection rows={activity} columns={columns()} />

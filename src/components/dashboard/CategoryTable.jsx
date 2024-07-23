@@ -1,17 +1,20 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useEffect } from "react";
 import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
 import EditBtn from "../../basic_components/EditBtn";
 import ViewBtn from "../../basic_components/ViewBtn";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "../../redux/features/categorySlice";
 
 export default function CategoryTable() {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const [categories, setCategories] = useState([]);
+
+  const { category } = useSelector((state) => state?.categoryReducer);
 
   const columns = () => [
     // { field: "id", headerName: "ID", width: 70 },
@@ -31,11 +34,13 @@ export default function CategoryTable() {
       field: "createdAt",
       headerName: "Created",
       width: 180,
+      renderCell: (params) => new Date(params.value).toLocaleDateString(),
     },
     {
       field: "updatedAt",
       headerName: "Updated",
       width: 180,
+      renderCell: (params) => new Date(params.value).toLocaleDateString(),
     },
     {
       field: "view",
@@ -67,35 +72,18 @@ export default function CategoryTable() {
               },
             ]}
             initialData={params.row}
-            refreshTable={getCategory}
+            refreshTable={() => dispatch(getCategory())}
           />
           <DeleteBtn
             deleteAction={deleteCategory}
             item={params.row}
             itemNameKey="name"
-            refreshTable={getCategory}
+            refreshTable={() => dispatch(getCategory())}
           />
         </div>
       ),
     },
   ];
-
-  const getCategory = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-      //   console.log(res.data.data);
-      setCategories(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createCategory = async (payload) => {
     try {
@@ -128,7 +116,7 @@ export default function CategoryTable() {
     );
   };
 
-  const deleteCategory = async (item, token) => {
+  const deleteCategory = async (item) => {
     await axios.delete(
       `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/delete-category/${item.id}`,
       {
@@ -141,8 +129,8 @@ export default function CategoryTable() {
   };
 
   useEffect(() => {
-    getCategory();
-  }, []);
+    dispatch(getCategory());
+  }, [dispatch]);
 
   return (
     <div className="w-full p-5 h-5/6">
@@ -151,7 +139,7 @@ export default function CategoryTable() {
 
         <CreateBtn
           createAction={createCategory}
-          refreshTable={getCategory}
+          refreshTable={() => dispatch(getCategory())}
           modalTitle="Category"
           formFields={[
             { name: "name", label: "Name", type: "text" },
@@ -159,7 +147,7 @@ export default function CategoryTable() {
           ]}
         />
       </div>
-      <TableSection rows={categories} columns={columns()} />
+      <TableSection rows={category} columns={columns()} />
 
       {/* Toast Container */}
       <ToastContainer />

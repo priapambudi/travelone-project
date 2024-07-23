@@ -1,32 +1,27 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getBanner } from "../redux/features/bannerSlice";
 
 const Hero = () => {
-  const [banner, setBanner] = useState([]);
+  const dispatch = useDispatch();
 
-  const getBanner = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banners",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // console.log(res.data.data);
-      setBanner(res.data.data[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { banner, loading, error } = useSelector(
+    (state) => state?.bannerReducer
+  );
+  const selectedBanner = banner?.[0];
 
   useEffect(() => {
-    getBanner();
-  }, []);
+    dispatch(getBanner());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="relative pb-8 w-[90%] mx-auto text-black hero-wrapper">
@@ -57,17 +52,17 @@ const Hero = () => {
         </div>
 
         <div className="flex items-center justify-center w-full gap-8 mx-auto md:w-1/2 md:items-start right">
-          {/* {banner.map((item) => (
-            <div
-              className="w-[30rem] h-[35rem] overflow-hidden rounded-3xl border-solid border-8 border-orange-500"
-              key={item.id}
-            >
-              <img className="w-full h-full" src={item.imageUrl} alt="" />
+          {selectedBanner ? (
+            <div className="w-[20rem] h-[25rem] md:w-[30rem] md:h-[30rem] overflow-hidden rounded-3xl border-solid border-8 border-orange-500">
+              <img
+                className="w-full h-full"
+                src={selectedBanner.imageUrl}
+                alt=""
+              />
             </div>
-          ))} */}
-          <div className="w-[20rem] h-[25rem] md:w-[30rem] md:h-[30rem] overflow-hidden rounded-3xl border-solid border-8 border-orange-500">
-            <img className="w-full h-full" src={banner.imageUrl} alt="" />
-          </div>
+          ) : (
+            <div>No banner available</div>
+          )}
         </div>
       </div>
     </div>

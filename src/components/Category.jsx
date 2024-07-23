@@ -1,31 +1,30 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "../redux/features/categorySlice";
 
 const Category = () => {
-  const [categories, setCategories] = useState([]);
-  const getCategory = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-      //   console.log(res);
-      const selectedCategories = res.data.data.slice(0, 3);
-      setCategories(selectedCategories);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const dispatch = useDispatch();
+
+  const { loading, error, category } = useSelector(
+    (state) => state?.categoryReducer
+  );
+
+  const selectedCategories = category?.slice(0, 3);
 
   useEffect(() => {
-    getCategory();
-  }, []);
+    dispatch(getCategory());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
       <div className="flex items-center justify-between md:mr-20 md:flex-row">
@@ -44,7 +43,7 @@ const Category = () => {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-5 md:grid md:grid-cols-3">
-        {categories.map((category) => (
+        {selectedCategories.map((category) => (
           <div
             className="relative flex flex-col items-center hover:opacity-60"
             key={category.id}

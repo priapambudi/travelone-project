@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import TableSection from "../../basic_components/TableSection";
 import CreateBtn from "../../basic_components/CreateBtn";
 import DeleteBtn from "../../basic_components/DeleteBtn";
@@ -8,10 +7,14 @@ import EditBtn from "../../basic_components/EditBtn";
 import ViewBtn from "../../basic_components/ViewBtn";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromo } from "../../redux/features/promoSlice";
 
 export default function PromoTable() {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  const [promo, setPromo] = useState([]);
+
+  const { promo } = useSelector((state) => state?.promoReducer);
 
   const columns = () => [
     // { field: "id", headerName: "ID", width: 70 },
@@ -77,34 +80,18 @@ export default function PromoTable() {
               },
             ]}
             initialData={params.row}
-            refreshTable={getPromo}
+            refreshTable={() => dispatch(getPromo())}
           />
           <DeleteBtn
             deleteAction={deletePromo}
             item={params.row}
             itemNameKey="title"
-            refreshTable={getPromo}
+            refreshTable={() => dispatch(getPromo())}
           />
         </div>
       ),
     },
   ];
-
-  const getPromo = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promos",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-      setPromo(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const createPromo = async (payload) => {
     try {
@@ -150,8 +137,8 @@ export default function PromoTable() {
   };
 
   useEffect(() => {
-    getPromo();
-  }, []);
+    dispatch(getPromo());
+  }, [dispatch]);
 
   return (
     <div className="w-full p-5 h-5/6">
@@ -160,7 +147,7 @@ export default function PromoTable() {
 
         <CreateBtn
           createAction={createPromo}
-          refreshTable={getPromo}
+          refreshTable={() => dispatch(getPromo())}
           modalTitle="Promo"
           formFields={[
             { name: "title", label: "Title", type: "text" },

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 
 // my swiper
 // Import Swiper React components
@@ -12,30 +11,18 @@ import "swiper/css/navigation";
 import { Pagination, Navigation } from "swiper/modules";
 import "../styles/promo.css";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromo } from "../redux/features/promoSlice";
 
 const Promo = () => {
-  const [promo, setPromo] = useState([]);
-  const getPromo = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promos",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
+  const dispatch = useDispatch();
 
-      //   console.log(res);
-      setPromo(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { promo, loading, error } = useSelector((state) => state.promoReducer);
+  const selectedPromo = promo?.slice(0, 6);
 
   useEffect(() => {
-    getPromo();
-  }, []);
+    dispatch(getPromo());
+  }, [dispatch]);
 
   return (
     <div className="w-[90%] mx-auto pb-8 p-6">
@@ -80,7 +67,7 @@ const Promo = () => {
         className="mySwiper"
       >
         <div className="">
-          {promo.map((item) => {
+          {selectedPromo.map((item) => {
             return (
               <SwiperSlide key={item.id}>
                 <div className="flex h-[100px] w-full gap-2 border border-slate-300 rounded-xl">
