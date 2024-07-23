@@ -2,26 +2,31 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
-// const style = {
-//   position: "absolute",
-//   top: "50%",
-//   left: "50%",
-//   transform: "translate(-50%, -50%)",
-//   width: 600,
-//   bgcolor: "background.paper",
-//   boxShadow: 24,
-// };
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  borderRadius: "10px",
+};
 
 const PromoHome = () => {
   const [promo, setPromo] = useState([]);
   const [selectedPromo, setSelectedPromo] = useState(null);
   const [open, setOpen] = useState(false);
+
+  const formatToRupiah = (amount) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -92,55 +97,55 @@ const PromoHome = () => {
       </div>
       <Footer />
 
-      <Modal
-        open={open}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        onClose={handleClose}
-      >
-        <Box className="w-[300px] h-fit md:w-[500px] rounded-lg overflow-hidden shadow-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={style}>
           <HighlightOffOutlinedIcon
-            className="absolute cursor-pointer top-2 right-2"
+            className="absolute cursor-pointer top-1 right-1"
             onClick={handleClose}
           />
           {selectedPromo && (
-            <div className="h-full ">
-              <div className="">
+            <div className="flex flex-col h-full bg-transparent">
+              <div className="p-6 bg-white rounded-t-md rounded-b-2xl ">
                 <img
-                  className="object-cover w-full h-[120px] md:h-[200px]"
+                  className="object-cover rounded-lg w-full h-[75px] md:h-[200px]"
                   src={selectedPromo.imageUrl}
                   alt={selectedPromo.title}
                 />
               </div>
-              <div className="flex flex-col h-full p-2 ">
-                <Typography
-                  id="modal-modal-title"
-                  sx={{ mb: 1, fontWeight: "bold", fontSize: "24px" }}
-                >
+
+              {/* Dotted Line */}
+              <div className="mx-5 bg-white border-dotted border-b-[3px] border-slate-500"></div>
+
+              <div className="flex flex-col h-full p-5 bg-white rounded-b-md rounded-t-2xl">
+                <div className="mb-1 text-xl font-bold text-center">
                   {selectedPromo.title}
-                </Typography>
-                <Typography
-                  id="modal-modal-description"
-                  sx={{ mb: 1, fontSize: "12px" }}
-                >
-                  {selectedPromo.description}
-                </Typography>
-                <Typography sx={{ mb: 1, fontSize: "14px" }}>
-                  Discount {selectedPromo.promo_discount_price} <br />
+                </div>
+
+                <div className="text-lg font-medium">
+                  Discount{" "}
+                  <span className="text-orange-500">
+                    {formatToRupiah(selectedPromo.promo_discount_price)}
+                  </span>{" "}
+                  <br />
                   <span>
-                    For Orders Over {selectedPromo.minimum_claim_price}
+                    For Orders Over{" "}
+                    {formatToRupiah(selectedPromo.minimum_claim_price)}!
                   </span>
-                </Typography>
-                <Typography sx={{ fontSize: "12px", fontWeight: "bold" }}>
-                  CODE: {selectedPromo.promo_code}
-                </Typography>
+                </div>
 
-                <Typography sx={{ fontSize: "12px", mt: 1 }}>
-                  T&C: {selectedPromo.terms_condition}
-                </Typography>
+                <div className="my-2">
+                  <span className="font-medium">CODE: </span>
+                  <span className="px-2 py-1 font-bold bg-orange-100 rounded-full">
+                    {selectedPromo.promo_code}
+                  </span>
+                </div>
 
+                <div sx={{ fontSize: "12px", mt: 1 }}>
+                  <span className="font-medium">T&C:</span>{" "}
+                  {selectedPromo.terms_condition}
+                </div>
                 <div className="flex justify-center">
-                  <button className="px-2 py-1 mt-4 font-semibold border border-orange-500 rounded-full hover:bg-orange-500 hover:text-white ">
+                  <button className="px-2 py-1 mt-4 font-semibold border border-orange-500 rounded-full hover:bg-orange-500 hover:text-white">
                     Claim
                   </button>
                 </div>
