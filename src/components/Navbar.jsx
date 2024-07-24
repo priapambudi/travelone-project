@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
+import PersonIcon from "@mui/icons-material/Person";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -87,9 +89,6 @@ const Navbar = () => {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/category">Category</Link>
-            </li>
-            <li>
               <Link to="/act-home">Activity</Link>
             </li>
             <li>
@@ -112,13 +111,21 @@ const Navbar = () => {
                 <div className="absolute px-4 py-2 z-10 bg-orange-100 rounded right-5 top-20 w-[200px] dropdown-menu">
                   <ul>
                     <Link to="/profile">
-                      <li className="py-1 hover:text-orange-400">My Profile</li>
+                      <div className="flex items-center gap-2">
+                        <PersonIcon />
+                        <li className="py-1 hover:text-orange-400">
+                          My Profile
+                        </li>
+                      </div>
                     </Link>
                     {role === "admin" ? (
                       <Link to="/dashboard">
-                        <li className="py-1 hover:text-orange-400">
-                          Dashboard
-                        </li>
+                        <div className="flex items-center gap-2">
+                          <DashboardIcon />
+                          <li className="py-1 hover:text-orange-400">
+                            Dashboard
+                          </li>
+                        </div>
                       </Link>
                     ) : null}
                     <li>
@@ -223,27 +230,12 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-            {/* <div className="flex justify-center gap-4 mb-4">
-              <Link to="/login">
-                <button className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700">
-                  Login
-                </button>
-              </Link>
-              <div className="w-px mx-2 bg-gray-400 h-15"></div>
-              <Link to="/register">
-                <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700">
-                  Sign Up
-                </button>
-              </Link>
-            </div> */}
 
             <ul className="flex flex-col items-center w-full gap-4">
               <li className="w-full py-2 text-xl font-medium text-center">
                 <Link to="/">Home</Link>
               </li>
-              <li className="w-full py-2 text-xl font-medium text-center">
-                <Link to="/category">Category</Link>
-              </li>
+
               <li className="w-full py-2 text-xl font-medium text-center">
                 <Link to="/activity">Activity</Link>
               </li>

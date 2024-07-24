@@ -3,10 +3,21 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
+import RateReviewRoundedIcon from "@mui/icons-material/RateReviewRounded";
 
 const ActivityDetail = () => {
   const param = useParams();
   const [activityDetail, setActivityDetail] = useState([]);
+
+  const formatToRupiah = (amount) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
 
   const getActivityDetail = async () => {
     try {
@@ -44,15 +55,25 @@ const ActivityDetail = () => {
             <div className="mb-2">
               <h1 className="text-3xl font-semibold">{activityDetail.title}</h1>
               <div className="flex gap-5">
-                <p>
-                  <span className="font-bold text-slate-600">
-                    {activityDetail.rating}
-                  </span>
-                  <span className="text-slate-500">/5</span>
-                </p>
-                <p className="text-slate-500">
-                  {activityDetail.total_reviews} Reviews
-                </p>
+                <div className="flex items-center gap-1">
+                  <ThumbUpRoundedIcon
+                    sx={{ color: "orange", fontSize: "15px" }}
+                  />
+                  <p>
+                    <span className="font-bold text-slate-600">
+                      {activityDetail.rating}
+                    </span>
+                    <span className="text-slate-500">/5</span>
+                  </p>
+                </div>
+                <div className="flex items-center gap-1">
+                  <RateReviewRoundedIcon
+                    sx={{ color: "orange", fontSize: "15px" }}
+                  />
+                  <p className="text-slate-500">
+                    {activityDetail.total_reviews} Reviews
+                  </p>
+                </div>
               </div>
               <hr className="mt-2" />
               <p className="mt-1 text-sm">
@@ -101,8 +122,10 @@ const ActivityDetail = () => {
             <div className="p-3 border-t-4 border-orange-500 rounded-lg shadow-lg md:h-fit md:w-[450px] mt-2">
               <p>
                 From{" "}
-                <span className="line-through">{activityDetail.price}</span>{" "}
-                {activityDetail.price_discount}
+                <span className="line-through">
+                  {formatToRupiah(activityDetail.price)}
+                </span>{" "}
+                {formatToRupiah(activityDetail.price_discount)}
               </p>
 
               <ul className="flex gap-2 text-xs">

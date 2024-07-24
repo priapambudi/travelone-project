@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import formatToRupiah from "../../format_rupiah/rupiah";
 
 const PromoDetailDash = () => {
   const params = useParams();
@@ -54,13 +55,13 @@ const PromoDetailDash = () => {
             </p>
             <p>
               <span className="font-semibold">Min. Discount Price:</span>{" "}
-              {promo.minimum_claim_price}
+              {formatToRupiah(promo.minimum_claim_price)}
             </p>
           </div>
           <div className="space-y-1">
             <p>
               <span className="font-semibold">Discount:</span>{" "}
-              {promo.promo_discount_price}
+              {formatToRupiah(promo.promo_discount_price)}
             </p>
             <p>
               <span className="font-semibold">Terms & Conditions:</span>{" "}

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivity } from "../../redux/features/activitySlice";
 import { getCategory } from "../../redux/features/categorySlice";
+import formatToRupiah from "../../format_rupiah/rupiah";
 
 export default function ActivityTable() {
   const dispatch = useDispatch();
@@ -35,7 +36,12 @@ export default function ActivityTable() {
     {
       field: "price",
       headerName: "Price",
-      width: 90,
+      width: 100,
+      renderCell: (params) => (
+        <div className="flex items-center h-full">
+          {formatToRupiah(params.value)}
+        </div>
+      ),
     },
 
     {

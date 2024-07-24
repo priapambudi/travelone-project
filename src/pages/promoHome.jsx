@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { getPromo } from "../redux/features/promoSlice";
 
 const style = {
   position: "absolute",
@@ -15,9 +17,11 @@ const style = {
 };
 
 const PromoHome = () => {
-  const [promo, setPromo] = useState([]);
   const [selectedPromo, setSelectedPromo] = useState(null);
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const { promo } = useSelector((state) => state?.promoReducer);
 
   const formatToRupiah = (amount) => {
     return new Intl.NumberFormat("id-ID", {
@@ -32,24 +36,6 @@ const PromoHome = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedPromo(null);
-  };
-
-  const getPromo = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promos",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-
-      //   console.log(res);
-      setPromo(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const getPromoDetail = async (id) => {
@@ -71,8 +57,8 @@ const PromoHome = () => {
   };
 
   useEffect(() => {
-    getPromo();
-  }, []);
+    dispatch(getPromo());
+  }, [dispatch]);
 
   return (
     <div>

@@ -3,43 +3,17 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getCategory } from "../redux/features/categorySlice";
 
 const ActivityHome = () => {
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+
+  // const [categories, setCategories] = useState([]);
   const [activitiesByCategory, setActivitiesByCategory] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
-  const handleItemClick = (id) => {
-    setSelectedCategoryId(id);
-    getActivitybyCategory(id);
-  };
-
-  const getCategory = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        }
-      );
-      // console.log(res.data.data);
-      setCategories(res.data.data);
-
-      // Find and set default category
-      const defaultCategory = res.data.data.find(
-        (category) =>
-          category.name === "INDONESIA" || category.name === "Indonesia"
-      );
-      if (defaultCategory) {
-        setSelectedCategoryId(defaultCategory.id);
-        getActivitybyCategory(defaultCategory.id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { category } = useSelector((state) => state.categoryReducer);
 
   const getActivitybyCategory = async (categoryId) => {
     try {
@@ -59,8 +33,25 @@ const ActivityHome = () => {
   };
 
   useEffect(() => {
-    getCategory();
-  }, []);
+    dispatch(getCategory());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const defaultCategory = category.find(
+      (category) =>
+        category.name === "INDONESIA" || category.name === "Indonesia"
+    );
+
+    if (defaultCategory) {
+      setSelectedCategoryId(defaultCategory.id);
+      getActivitybyCategory(defaultCategory.id);
+    }
+  }, [category]);
+
+  const handleItemClick = (id) => {
+    setSelectedCategoryId(id);
+    getActivitybyCategory(id);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -72,7 +63,7 @@ const ActivityHome = () => {
 
         {/* TODO: Implement category selection */}
         <div className="flex flex-wrap gap-3 md:justify-center">
-          {categories.map((item) => {
+          {category.map((item) => {
             const isSelected = selectedCategoryId === item.id;
             return (
               <div

@@ -34,9 +34,9 @@ const profile = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="w-[90%] mx-auto p-6 ">
+      <div className="w-[90%] mx-auto p-6 border-slate-300 border rounded-md ">
         <h1 className="mb-2 text-3xl font-bold text-center">Profile</h1>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center gap-5 md:flex-row">
           <div className="mb-4">
             <img
               src={profile.profilePictureUrl}
@@ -44,10 +44,16 @@ const profile = () => {
               className="w-[150px] h-[150px] rounded-full"
             />
           </div>
-          <div className="p-4 text-lg border border-orange-300 rounded-lg">
-            <p className="">Email: {profile.email}</p>
-            <p>Name: {profile.name}</p>
-            <p>Phone: {profile.phoneNumber}</p>
+          <div className="p-4 text-lg border-2 border-orange-300 rounded-lg">
+            <p>
+              <span className="font-medium">Email:</span> {profile.email}
+            </p>
+            <p>
+              <span className="font-medium">Name:</span> {profile.name}
+            </p>
+            <p>
+              <span className="font-medium">Phone:</span> {profile.phoneNumber}
+            </p>
           </div>
         </div>
 

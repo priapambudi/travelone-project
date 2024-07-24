@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import formatToRupiah from "../../format_rupiah/rupiah";
 
 const ActivityDetailDash = () => {
   const params = useParams();
@@ -46,38 +47,43 @@ const ActivityDetailDash = () => {
         </div>
         <div className="flex justify-center gap-8 p-4 text-gray-700">
           <div>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Category:{" "}
               <span className="font-normal">{activity?.category?.name}</span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Title: <span className="font-normal">{activity.title}</span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Description:{" "}
               <span className="font-normal">{activity.description}</span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Facilities:{" "}
               <span className="font-normal">{activity.facilities}</span>
             </p>
+            <p className="font-semibold ">
+              Price:{" "}
+              <span className="font-normal">
+                {formatToRupiah(activity.price)}
+              </span>
+            </p>
           </div>
           <div>
-            <p className="text-xl font-semibold">
-              Price: <span className="font-normal">{activity.price}</span>
-            </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Price Discount:{" "}
-              <span className="font-normal">{activity.price_discount}</span>
+              <span className="font-normal">
+                {formatToRupiah(activity.price_discount)}
+              </span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Rating: <span className="font-normal">{activity.rating}</span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Total Reviews:{" "}
               <span className="font-normal">{activity.total_reviews}</span>
             </p>
-            <p className="text-xl font-semibold">
+            <p className="font-semibold ">
               Location:{" "}
               <span className="font-normal">
                 {activity.address}, {activity.city}, {activity.province}

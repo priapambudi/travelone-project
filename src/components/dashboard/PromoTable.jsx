@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromo } from "../../redux/features/promoSlice";
+import formatToRupiah from "../../format_rupiah/rupiah";
 
 export default function PromoTable() {
   const dispatch = useDispatch();
@@ -35,11 +36,13 @@ export default function PromoTable() {
       field: "promo_discount_price",
       headerName: "Discount Price",
       width: 110,
+      renderCell: (params) => formatToRupiah(params.value),
     },
     {
       field: "minimum_claim_price",
       headerName: "Min. Claim Price",
       width: 120,
+      renderCell: (params) => formatToRupiah(params.value),
     },
     {
       field: "view",

@@ -29,7 +29,7 @@ const CategoryDetailDash = () => {
 
   return (
     <div className="w-[90%] my-5 mx-auto rounded-lg shadow-lg bg-white">
-      <h1 className="text-xl font-bold text-center text-orange-500 ">
+      <h1 className="text-2xl font-bold text-center text-orange-500 ">
         Detail Category
       </h1>
       <div className="flex flex-col gap-5 p-6">

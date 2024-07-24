@@ -2,11 +2,11 @@ import React from "react";
 import SidebarDash from "../../components/dashboard/SidebarDash";
 import NavbarDash from "../../components/dashboard/NavbarDash";
 import Widget from "../../components/dashboard/Widget";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import AttractionsOutlinedIcon from "@mui/icons-material/AttractionsOutlined";
-import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
-import LoyaltyOutlinedIcon from "@mui/icons-material/LoyaltyOutlined";
-import BrokenImageOutlinedIcon from "@mui/icons-material/BrokenImageOutlined";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import AttractionsRoundedIcon from "@mui/icons-material/AttractionsRounded";
+import PublicRoundedIcon from "@mui/icons-material/PublicRounded";
+import SellRoundedIcon from "@mui/icons-material/SellRounded";
+import PhotoLibraryRoundedIcon from "@mui/icons-material/PhotoLibraryRounded";
 import axios from "axios";
 
 const HomeDash = () => {
@@ -79,23 +79,21 @@ const HomeDash = () => {
         <NavbarDash />
         <div className="grid grid-cols-4 gap-3 p-5 widgets">
           <Widget title="Users" fetchCount={getUserCount}>
-            <AccountCircleOutlinedIcon
+            <AccountCircleRoundedIcon
               style={{ fontSize: 50, color: "orange" }}
             />
           </Widget>
           <Widget title="Category" fetchCount={getCategoryCount}>
-            <AttractionsOutlinedIcon
-              style={{ fontSize: 50, color: "orange" }}
-            />
+            <PublicRoundedIcon style={{ fontSize: 50, color: "orange" }} />
           </Widget>
           <Widget title="Activity" fetchCount={getActivityCount}>
-            <PublicOutlinedIcon style={{ fontSize: 50, color: "orange" }} />
+            <AttractionsRoundedIcon style={{ fontSize: 50, color: "orange" }} />
           </Widget>
           <Widget title="Promo" fetchCount={getPromoCount}>
-            <LoyaltyOutlinedIcon style={{ fontSize: 50, color: "orange" }} />
+            <SellRoundedIcon style={{ fontSize: 50, color: "orange" }} />
           </Widget>
           <Widget title="Banner" fetchCount={getBannerCount}>
-            <BrokenImageOutlinedIcon
+            <PhotoLibraryRoundedIcon
               style={{ fontSize: 50, color: "orange" }}
             />
           </Widget>
