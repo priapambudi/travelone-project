@@ -54,7 +54,7 @@ const Activity = () => {
               >
                 <img
                   className="w-full h-[250px] p-3 rounded-3xl"
-                  src={item.imageUrls}
+                  src={item.imageUrls[0]}
                   alt=""
                 />
                 <div className="p-3">

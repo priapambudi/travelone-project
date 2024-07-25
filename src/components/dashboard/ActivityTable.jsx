@@ -29,7 +29,7 @@ export default function ActivityTable() {
       width: 60,
       renderCell: (params) => (
         <div className="flex items-center h-full">
-          <img src={params.value} alt="image" className="w-8 h-8 " />
+          <img src={params.value[0]} alt="image" className="w-8 h-8 " />
         </div>
       ),
     },

@@ -5,7 +5,7 @@ import formatToRupiah from "../../format_rupiah/rupiah";
 
 const ActivityDetailDash = () => {
   const params = useParams();
-  const [activity, setActivity] = useState({});
+  const [activity, setActivity] = useState(null);
 
   const getActivityById = async () => {
     try {
@@ -28,9 +28,9 @@ const ActivityDetailDash = () => {
     getActivityById();
   }, []);
 
-  //   if (!activity) {
-  //     return <p>Loading...</p>;
-  //   }
+  if (!activity) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="w-[90%] mt-5 mx-auto rounded-lg shadow-lg bg-white">
@@ -38,12 +38,16 @@ const ActivityDetailDash = () => {
         Detail Activity
       </h1>
       <div className="flex flex-col">
-        <div className="overflow-hidden rounded-lg">
-          <img
-            className="w-full h-[300px] object-cover object-center"
-            src={activity.imageUrls}
-            alt={activity.title}
-          />
+        <div className="overflow-hidden">
+          {activity.imageUrls && activity.imageUrls.length > 0 ? (
+            <img
+              className="w-full h-[300px] object-cover object-center"
+              src={activity.imageUrls[0]}
+              alt={activity.title}
+            />
+          ) : (
+            <p>No image available</p>
+          )}
         </div>
         <div className="flex justify-center gap-8 p-4 text-gray-700">
           <div>

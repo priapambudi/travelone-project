@@ -6,6 +6,7 @@ import Activity from "../components/Activity";
 import Promo from "../components/Promo";
 import Testimony from "../components/Testimony";
 import Footer from "../components/Footer";
+import ScrollBtn from "../basic_components/ScrollBtn";
 
 const Home = () => {
   return (
@@ -18,6 +19,7 @@ const Home = () => {
       <Promo />
       <Testimony />
       <Footer />
+      <ScrollBtn />
     </div>
   );
 };
