@@ -66,7 +66,7 @@ export default function BannerTable() {
               { name: "name", label: "Name", type: "text" },
               { name: "imageUrl", label: "Image", type: "file" },
             ]}
-            initialData={params.row}
+            initialData={{ ...params.row, imageUrl: [params.row.imageUrl] }}
             refreshTable={() => dispatch(getBanner())}
           />
           <DeleteBtn

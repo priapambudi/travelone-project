@@ -90,7 +90,7 @@ export default function ActivityTable() {
               { name: "city", label: "City", type: "text" },
               { name: "location_maps", label: "Location Maps", type: "text" },
             ]}
-            initialData={params.row}
+            initialData={{ ...params.row, imageUrls: params.row.imageUrls }}
             refreshTable={() => dispatch(getActivity())}
             categories={category}
           />

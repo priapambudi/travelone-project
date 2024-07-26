@@ -85,7 +85,7 @@ export default function EditBtn({
       const uploadedImageUrls = await handleUploadFiles(selectedFiles);
       if (!uploadedImageUrls) return;
 
-      if (formData.imageUrls) {
+      if (Array.isArray(formData.imageUrls)) {
         dataToSubmit.imageUrls = uploadedImageUrls;
       } else {
         dataToSubmit.imageUrl = uploadedImageUrls[0]; // Assume only one image for category
@@ -172,33 +172,36 @@ export default function EditBtn({
             </div>
 
             <hr />
+
             {/* Image preview */}
-            <p>Preview Images</p>
-            {selectedFileURLs.length > 0 ? (
-              <div className="flex gap-3">
-                {selectedFileURLs.map((url, index) => (
-                  <img
-                    key={index}
-                    src={url}
-                    alt={`Selected ${index}`}
-                    className="object-cover w-20 h-20"
-                  />
-                ))}
-              </div>
-            ) : (
-              formData.imageUrls && (
+            <p className="text-center">Preview Images</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {selectedFileURLs.length > 0 ? (
                 <div className="flex gap-3">
-                  {formData.imageUrls.map((url, index) => (
+                  {selectedFileURLs.map((url, index) => (
                     <img
                       key={index}
                       src={url}
-                      alt={`Existing ${index}`}
+                      alt={`Selected ${index}`}
                       className="object-cover w-20 h-20"
                     />
                   ))}
                 </div>
-              )
-            )}
+              ) : (
+                (Array.isArray(formData.imageUrls)
+                  ? formData.imageUrls
+                  : [formData.imageUrl]
+                ).map((url, index) => (
+                  <div key={index} className="">
+                    <img
+                      src={url}
+                      alt={`Existing ${index}`}
+                      className="object-cover w-20 h-20"
+                    />
+                  </div>
+                ))
+              )}
+            </div>
 
             <div className="flex justify-center gap-2 mt-2">
               <button
