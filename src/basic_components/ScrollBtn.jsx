@@ -16,6 +16,8 @@ const ScrollBtn = () => {
 
   return (
     <button
+      id="scrollBtn"
+      aria-label="scroll to top"
       className={`fixed z-50 bg-orange-200 rounded-full outline outline-offset-2 outline-orange-400 outline-1 bottom-10 right-10 transition-opacity duration-300 ${
         visible ? "opacity-100" : "opacity-0"
       }`}

@@ -85,7 +85,7 @@ const Promo = () => {
                     </div>
                     <div className="flex justify-end mb-2 mr-2">
                       <Link to={"/promo-home"}>
-                        <p className="px-2 py-1 text-xs font-thin text-orange-500 hover:text-orange-700 w-fit">
+                        <p className="px-2 py-1 text-xs font-medium text-orange-700 hover:text-orange-900 w-fit">
                           Detail
                         </p>
                       </Link>

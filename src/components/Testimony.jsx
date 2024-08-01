@@ -12,7 +12,8 @@ const Testimony = () => {
                 <img
                   className="w-16 h-16 mr-2 border-4 border-orange-400 rounded-full"
                   src="/testi1.jpg"
-                  alt=""
+                  alt="testi1"
+                  loading="lazy"
                 />
                 <div>
                   <h1 className="text-lg font-bold">Zacky R</h1>
@@ -32,7 +33,8 @@ const Testimony = () => {
                 <img
                   className="w-16 h-16 mr-2 border-4 border-orange-400 rounded-full"
                   src="/testi2.jpg"
-                  alt=""
+                  alt="testi2"
+                  loading="lazy"
                 />
                 <div>
                   <h1 className="text-lg font-bold">Anggie N</h1>
@@ -52,7 +54,8 @@ const Testimony = () => {
                 <img
                   className="w-16 h-16 mr-2 border-4 border-orange-400 rounded-full"
                   src="/testi3.jpg"
-                  alt=""
+                  alt="testi3"
+                  loading="lazy"
                 />
                 <div>
                   <h1 className="text-lg font-bold">Komang J</h1>

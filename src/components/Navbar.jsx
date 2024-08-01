@@ -78,20 +78,26 @@ const Navbar = () => {
     <div>
       <nav className="flex justify-between items-center w-[90%] mx-auto z-10 p-4">
         <Link to="/" className="flex items-center gap-2 ">
-          <img className="w-10 md:w-16" src="/trip.png" alt="" />
+          <img
+            width={10}
+            height={10}
+            className="w-8 md:w-10"
+            src="/optimized-images/trip.png"
+            alt="logo"
+          />
           <h1 className="h-full text-xl md:text-3xl">
             Travel<span className="font-semibold text-orange-500">o</span>ne
           </h1>
         </Link>
         <div className="hidden md:block">
           <ul className="flex gap-[4vw] items-center">
-            <li>
+            <li className="font-normal">
               <Link to="/">Home</Link>
             </li>
-            <li>
+            <li className="font-normal">
               <Link to="/act-home">Activity</Link>
             </li>
-            <li>
+            <li className="font-normal">
               <Link to="/promo-home">Promo</Link>
             </li>
           </ul>
@@ -142,14 +148,14 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="flex">
-              <Link to="/login">
-                <button className="hidden px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700">
+              <Link aria-label="Login" to="/login">
+                <button className="hidden px-2 py-1 text-lg font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700">
                   Login
                 </button>
               </Link>
               <div className="hidden w-px mx-2 bg-gray-400 md:block h-15"></div>
-              <Link to="/register">
-                <button className="hidden px-4 py-2 font-bold text-white bg-orange-500 rounded-full md:block hover:bg-orange-700">
+              <Link aria-label="Sign Up" to="/register">
+                <button className="hidden px-2 py-1 text-lg font-bold text-white bg-orange-500 border-2 border-orange-500 rounded-full md:block hover:bg-orange-700">
                   Sign Up
                 </button>
               </Link>
@@ -195,8 +201,13 @@ const Navbar = () => {
           )}
           {/* Mobile Navbar */}
 
-          <button className="md:hidden " onClick={toggleNavbar}>
-            <img src="/menu.png" alt="" />
+          <button
+            id="menu-btn"
+            aria-label="Open Menu"
+            className="md:hidden "
+            onClick={toggleNavbar}
+          >
+            <img src="optimed-images/menu.png" alt="" />
           </button>
         </div>
       </nav>
@@ -211,20 +222,20 @@ const Navbar = () => {
         >
           <div className="flex justify-end p-4">
             <button onClick={handleClose}>
-              <img src="/x.png" alt="Close menu" />
+              <img src="optimized-images/x.png" alt="Close menu" />
             </button>
           </div>
           <div className="flex flex-col items-center gap-4 mt-10">
             {token ? null : (
               <div className="flex justify-center gap-4 mb-4">
-                <Link to="/login">
-                  <button className="px-4 py-2 font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700">
+                <Link aria-label="To login page" to="/login">
+                  <button className="px-4 py-2 m-1 text-xl font-bold text-orange-700 border-2 border-orange-700 rounded-full hover:border-orange-900 hover:text-orange-900">
                     Login
                   </button>
                 </Link>
                 <div className="w-px mx-2 bg-gray-400 h-15"></div>
-                <Link to="/register">
-                  <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700">
+                <Link aria-label="To sign up page" to="/register">
+                  <button className="px-4 py-2 m-1 text-xl font-bold text-white bg-orange-700 rounded-full hover:bg-orange-900">
                     Sign Up
                   </button>
                 </Link>
@@ -232,14 +243,14 @@ const Navbar = () => {
             )}
 
             <ul className="flex flex-col items-center w-full gap-4">
-              <li className="w-full py-2 text-xl font-medium text-center">
+              <li className="w-full py-2 m-1 text-xl font-medium text-center">
                 <Link to="/">Home</Link>
               </li>
 
-              <li className="w-full py-2 text-xl font-medium text-center">
+              <li className="w-full py-2 m-1 text-xl font-medium text-center">
                 <Link to="/activity">Activity</Link>
               </li>
-              <li className="w-full py-2 text-xl font-medium text-center">
+              <li className="w-full py-2 m-1 text-xl font-medium text-center">
                 <Link to="/promo">Promo</Link>
               </li>
             </ul>

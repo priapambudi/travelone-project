@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { useDispatch, useSelector } from "react-redux";
 import { getActivity } from "../redux/features/activitySlice";
+import formatToRupiah from "../format_rupiah/rupiah";
 
 const Activity = () => {
   const dispatch = useDispatch();
@@ -69,10 +70,12 @@ const Activity = () => {
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-lg font-semibold">Rp.{item.price}</p>
+                    <p className="text-lg font-semibold">
+                      {formatToRupiah(item.price)}
+                    </p>
                     <Link
                       to={`/act-detail/${item.id}`}
-                      className="px-3 py-1 text-white bg-orange-500 rounded-full"
+                      className="px-3 py-1 font-semibold text-white bg-orange-500 rounded-full hover:bg-orange-700"
                     >
                       View
                     </Link>
@@ -83,10 +86,15 @@ const Activity = () => {
           })}
         </div>
       </div>
-      <Link className="flex mt-4 md:hidden" to="/act-home">
+      <Link
+        id="ActivityBtn"
+        aria-label="Get more information about activities"
+        className="flex mt-4 md:hidden"
+        to="/act-home"
+      >
         <KeyboardDoubleArrowRightOutlinedIcon
-          sx={{ fontSize: 60 }}
-          className="mx-auto text-orange-400 border border-orange-300 rounded-full "
+          sx={{ fontSize: 60, ":hover": { color: "orange" } }}
+          className="mx-auto text-orange-400 border border-orange-400 rounded-full"
         />
       </Link>
     </div>

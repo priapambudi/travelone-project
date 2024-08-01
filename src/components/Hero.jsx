@@ -9,7 +9,7 @@ const Hero = () => {
   const { banner, loading, error } = useSelector(
     (state) => state?.bannerReducer
   );
-  const selectedBanner = banner?.[0];
+  const selectedBanner = banner?.[2];
 
   useEffect(() => {
     dispatch(getBanner());
@@ -24,9 +24,9 @@ const Hero = () => {
   }
 
   return (
-    <div className="relative pb-8 w-[90%] mx-auto text-black hero-wrapper">
-      <div className="flex flex-col items-end justify-between w-full gap-8 p-6 md:flex-row hero-contaier">
-        <div className="flex flex-col items-center justify-center w-full h-full gap-12 mx-auto my-auto md:items-start md:w-1/2 md:mx-0 left">
+    <div className="pb-8 w-[90%] mx-auto text-black">
+      <div className="flex flex-col items-end justify-between w-full gap-8 p-6 md:flex-row">
+        <div className="flex flex-col items-center justify-center w-full h-full gap-12 mx-auto my-auto md:items-start md:w-1/2 md:mx-0">
           <div className="">
             <h1 className="text-5xl font-bold text-center md:text-left">
               Discover the <br />
@@ -44,24 +44,29 @@ const Hero = () => {
 
           <div>
             <Link to="/act-home">
-              <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-600">
+              <button className="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-700">
                 Get Started
               </button>
             </Link>
           </div>
         </div>
 
-        <div className="flex items-center justify-center w-full gap-8 mx-auto md:w-1/2 md:items-start right">
+        <div className="flex items-center justify-center w-full gap-8 mx-auto md:w-1/2 md:items-start">
           {selectedBanner ? (
-            <div className="w-[20rem] h-[25rem] md:w-[30rem] md:h-[30rem] overflow-hidden rounded-3xl border-solid border-8 border-orange-500">
+            <div className=" w-[20rem] h-[25rem] md:w-[30rem] md:h-[30rem] overflow-hidden rounded-3xl border-solid border-8 border-orange-500">
               <img
-                className="w-full h-full"
+                className="object-cover w-full h-full aspect-[4/5]"
                 src={selectedBanner.imageUrl}
-                alt=""
+                alt="hero_banner"
+                width="480"
+                height="600"
+                // style={{ aspectRatio: "4 / 5", objectFit: "cover" }}
               />
             </div>
           ) : (
-            <div>No banner available</div>
+            <div className="w-[20rem] h-[25rem] md:w-[30rem] md:h-[30rem] bg-gray-200 rounded-3xl border-solid border-8 border-orange-500 flex items-center justify-center">
+              <span>No banner available</span>
+            </div>
           )}
         </div>
       </div>

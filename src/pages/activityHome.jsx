@@ -39,7 +39,9 @@ const ActivityHome = () => {
   useEffect(() => {
     const defaultCategory = category.find(
       (category) =>
-        category.name === "INDONESIA" || category.name === "Indonesia"
+        category.name === "Indonesia" ||
+        category.name === "INDONESIA" ||
+        category.name === "indonesia"
     );
 
     if (defaultCategory) {
@@ -69,11 +71,15 @@ const ActivityHome = () => {
               <div
                 key={item.id}
                 className={`border rounded-md border-slate-600 px-2 py-1 cursor-pointer ${
-                  isSelected ? "bg-orange-500 text-white" : "bg-white"
+                  isSelected ? "bg-orange-400 text-black" : "bg-white"
                 }`}
                 onClick={() => handleItemClick(item.id)}
               >
-                <li className="text-xs list-none md:text-sm">{item.name}</li>
+                <ul>
+                  <li className="text-xs font-medium list-none md:text-sm">
+                    {item.name}
+                  </li>
+                </ul>
               </div>
             );
           })}
@@ -89,7 +95,8 @@ const ActivityHome = () => {
                     <div className="overflow-hidden rounded-md cursor-pointer">
                       <img
                         src={activity.imageUrls[0]}
-                        alt={activity.title}
+                        alt="activity image"
+                        loading="eager"
                         className="w-full h-[150px] md:h-[100px] lg:h-[180px] transition-transform duration-500 bg-cover hover:scale-110 "
                       />
                     </div>
@@ -109,7 +116,7 @@ const ActivityHome = () => {
           </div>
         )}
       </div>
-      <Footer className="flex-shrink-0 mt-auto" />
+      <Footer className="" />
     </div>
   );
 };
