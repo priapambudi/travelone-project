@@ -3,7 +3,7 @@ import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
 import Profile from "../pages/profile";
-// import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import EditProfile from "../components/EditProfile";
 import HomeDash from "../pages/dashboard/homeDash";
 import User from "../pages/dashboard/user";
@@ -52,44 +52,85 @@ export const routeList = [
     element: <PromoHome />,
   },
 
+  // dashboard
   {
     path: "/dashboard",
-    element: <HomeDash />,
+    element: (
+      <ProtectedRoute>
+        <HomeDash />,
+      </ProtectedRoute>
+    ),
   },
   {
     path: "dashboard/user",
-    element: <User />,
+    element: (
+      <ProtectedRoute>
+        <User />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/category",
-    element: <Category />,
+    element: (
+      <ProtectedRoute>
+        <Category />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/banner",
-    element: <Banner />,
+    element: (
+      <ProtectedRoute>
+        <Banner />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/promo",
-    element: <Promo />,
+    element: (
+      <ProtectedRoute>
+        <Promo />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/activity",
-    element: <Activity />,
+    element: (
+      <ProtectedRoute>
+        <Activity />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/activity/:id",
-    element: <ActivityDetailDashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <ActivityDetailDashboardPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/category/:id",
-    element: <CategoryDetailDashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <CategoryDetailDashboardPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/promo/:id",
-    element: <PromoDetailDashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <PromoDetailDashboardPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/dashboard/banner/:id",
-    element: <BannerDetailDashboardPage />,
+    element: (
+      <ProtectedRoute>
+        <BannerDetailDashboardPage />
+      </ProtectedRoute>
+    ),
   },
 ];
