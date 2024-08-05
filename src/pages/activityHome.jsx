@@ -97,7 +97,7 @@ const ActivityHome = () => {
                         src={activity.imageUrls[0]}
                         alt="activity image"
                         loading="eager"
-                        className="w-full h-[150px] md:h-[100px] lg:h-[180px] transition-transform duration-500 bg-cover hover:scale-110 "
+                        className="w-full object-cover h-[150px] md:h-[100px] lg:h-[180px] transition-transform duration-500 bg-cover hover:scale-110 "
                       />
                     </div>
 

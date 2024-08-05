@@ -149,13 +149,13 @@ const Navbar = () => {
           ) : (
             <div className="flex">
               <Link aria-label="Login" to="/login">
-                <button className="hidden px-2 py-1 text-lg font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700">
+                <button className="hidden px-4 py-2 text-lg font-bold text-orange-500 border-2 border-orange-500 rounded-full md:block hover:border-orange-700 hover:text-orange-700">
                   Login
                 </button>
               </Link>
               <div className="hidden w-px mx-2 bg-gray-400 md:block h-15"></div>
               <Link aria-label="Sign Up" to="/register">
-                <button className="hidden px-2 py-1 text-lg font-bold text-white bg-orange-500 border-2 border-orange-500 rounded-full md:block hover:bg-orange-700">
+                <button className="hidden px-4 py-2 text-lg font-bold text-white bg-orange-500 border-2 border-orange-500 rounded-full md:block hover:bg-orange-700">
                   Sign Up
                 </button>
               </Link>
@@ -207,7 +207,7 @@ const Navbar = () => {
             className="md:hidden "
             onClick={toggleNavbar}
           >
-            <img src="optimed-images/menu.png" alt="" />
+            <img src="optimized-images/menu.png" alt="" />
           </button>
         </div>
       </nav>
@@ -229,13 +229,13 @@ const Navbar = () => {
             {token ? null : (
               <div className="flex justify-center gap-4 mb-4">
                 <Link aria-label="To login page" to="/login">
-                  <button className="px-4 py-2 m-1 text-xl font-bold text-orange-700 border-2 border-orange-700 rounded-full hover:border-orange-900 hover:text-orange-900">
+                  <button className="px-4 py-2 m-1 text-xl font-bold text-orange-500 border-2 border-orange-500 rounded-full hover:border-orange-700 hover:text-orange-700">
                     Login
                   </button>
                 </Link>
                 <div className="w-px mx-2 bg-gray-400 h-15"></div>
                 <Link aria-label="To sign up page" to="/register">
-                  <button className="px-4 py-2 m-1 text-xl font-bold text-white bg-orange-700 rounded-full hover:bg-orange-900">
+                  <button className="px-4 py-2 m-1 text-xl font-bold text-white bg-orange-500 rounded-full hover:bg-orange-700">
                     Sign Up
                   </button>
                 </Link>
@@ -248,10 +248,10 @@ const Navbar = () => {
               </li>
 
               <li className="w-full py-2 m-1 text-xl font-medium text-center">
-                <Link to="/activity">Activity</Link>
+                <Link to="/act-home">Activity</Link>
               </li>
               <li className="w-full py-2 m-1 text-xl font-medium text-center">
-                <Link to="/promo">Promo</Link>
+                <Link to="/promo-home">Promo</Link>
               </li>
             </ul>
           </div>
