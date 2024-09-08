@@ -91,14 +91,23 @@ const Navbar = () => {
         </Link>
         <div className="hidden md:block">
           <ul className="flex gap-[4vw] items-center">
-            <li className="font-normal">
-              <Link to="/">Home</Link>
+            <li>
+              <Link className="relative group" to="/">
+                Home{" "}
+                <div className="absolute w-[100%] h-[2px] bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+              </Link>
             </li>
-            <li className="font-normal">
-              <Link to="/act-home">Activity</Link>
+            <li>
+              <Link className="relative group" to="/act-home">
+                Activity{" "}
+                <div className="absolute w-[100%] h-[2px] bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+              </Link>
             </li>
-            <li className="font-normal">
-              <Link to="/promo-home">Promo</Link>
+            <li>
+              <Link className="relative group" to="/promo-home">
+                Promo{" "}
+                <div className="absolute w-[100%] h-[2px] bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+              </Link>
             </li>
           </ul>
         </div>
