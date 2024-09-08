@@ -253,14 +253,23 @@ const Navbar = () => {
 
             <ul className="flex flex-col items-center w-full gap-4">
               <li className="w-full py-2 m-1 text-xl font-medium text-center">
-                <Link to="/">Home</Link>
+                <Link className="relative group" to="/">
+                  Home{" "}
+                  <div className="absolute w-[100%] h-[2px] left-0 right-0 bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                </Link>
               </li>
 
               <li className="w-full py-2 m-1 text-xl font-medium text-center">
-                <Link to="/act-home">Activity</Link>
+                <Link className="relative group" to="/act-home">
+                  Activity{" "}
+                  <div className="absolute w-[100%] h-[2px] left-0 right-0 bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                </Link>
               </li>
               <li className="w-full py-2 m-1 text-xl font-medium text-center">
-                <Link to="/promo-home">Promo</Link>
+                <Link className="relative group" to="/promo-home">
+                  Promo{" "}
+                  <div className="absolute w-[100%] h-[2px] left-0 right-0 bg-orange-500 scale-x-0 group-hover:scale-x-100 transition-transform"></div>
+                </Link>
               </li>
             </ul>
           </div>
