@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -10,7 +12,9 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   const [role, setRole] = useState("admin");
   const [profilePicture, setProfilePicture] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -114,7 +118,7 @@ const Register = () => {
                   name="email"
                   id="email"
                   placeholder="Email"
-                  className="p-2 border border-orange-300 rounded-lg "
+                  className="p-2 border border-orange-300 rounded-lg focus:outline-none "
                 />
               </div>
               <div className="flex flex-col">
@@ -127,21 +131,33 @@ const Register = () => {
                   name="name"
                   id="name"
                   placeholder="Name"
-                  className="p-2 border border-orange-300 rounded-lg "
+                  className="p-2 border border-orange-300 rounded-lg focus:outline-none"
                 />
               </div>
               <div className="flex flex-col">
                 <label htmlFor="password" className="mb-1 text-sm font-medium">
                   Password
                 </label>
-                <input
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  className="p-2 border border-orange-300 rounded-lg "
-                />
+                <div className="flex justify-between p-2 border border-orange-300 rounded-lg">
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    className="w-full focus:outline-none"
+                  />
+                  <div
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="cursor-pointer"
+                  >
+                    {showPassword ? (
+                      <VisibilityIcon sx={{ fontSize: 20 }} />
+                    ) : (
+                      <VisibilityOffIcon sx={{ fontSize: 20 }} />
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col">
                 <label
@@ -150,14 +166,26 @@ const Register = () => {
                 >
                   Password Repeat
                 </label>
-                <input
-                  onChange={(e) => setPasswordRepeat(e.target.value)}
-                  type="password"
-                  name="passwordrepeat"
-                  id="passwordrepeat"
-                  placeholder="Repeat Password"
-                  className="p-2 border border-orange-300 rounded-lg "
-                />
+                <div className="flex justify-between p-2 border border-orange-300 rounded-lg">
+                  <input
+                    onChange={(e) => setPasswordRepeat(e.target.value)}
+                    type={showPasswordRepeat ? "text" : "password"}
+                    name="passwordrepeat"
+                    id="passwordrepeat"
+                    placeholder="Repeat Password"
+                    className="w-full focus:outline-none"
+                  />
+                  <div
+                    onClick={() => setShowPasswordRepeat(!showPasswordRepeat)}
+                    className="cursor-pointer"
+                  >
+                    {showPasswordRepeat ? (
+                      <VisibilityIcon sx={{ fontSize: 20 }} />
+                    ) : (
+                      <VisibilityOffIcon sx={{ fontSize: 20 }} />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -199,7 +227,7 @@ const Register = () => {
                   name="phone"
                   id="phone"
                   placeholder="Phone"
-                  className="p-2 border border-orange-300 rounded-lg "
+                  className="p-2 border border-orange-300 rounded-lg focus:outline-none"
                 />
               </div>
             </div>

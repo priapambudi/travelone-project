@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 // import Modal from "../components/Modal";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -75,18 +78,23 @@ const Login = () => {
               name="email"
               id="email"
               placeholder="Input email"
-              className="p-2 border border-orange-300 rounded-lg"
+              className="p-2 border border-orange-300 rounded-lg focus:outline-none"
             />
 
             <label htmlFor="password">Password</label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Input password"
-              className="p-2 border border-orange-300 rounded-lg"
-            />
+            <div className="flex justify-between p-2 border border-orange-300 rounded-lg">
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                name="password"
+                id="password"
+                placeholder="Input password"
+                className="focus:outline-none"
+              ></input>
+              <div onClick={() => setShowPassword(!showPassword)} className="cursor-pointer">
+                {showPassword ? <VisibilityIcon sx={{ fontSize: 20 }} /> : <VisibilityOffIcon sx={{ fontSize: 20 }} />}
+              </div>
+            </div>
             <button
               type="submit"
               className="p-2 mt-2 font-semibold bg-orange-300 rounded-lg hover:bg-orange-500"
