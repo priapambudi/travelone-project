@@ -2,94 +2,94 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Register = () => {
   const navigate = useNavigate();
-  // const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [passwordRepeat, setPasswordRepeat] = useState("");
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
-  const [role, setRole] = useState("admin");
-  const [profilePicture, setProfilePicture] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append("image", profilePicture);
+  // Validation schema using Yup
+  const validationSchema = yup.object({
+    email: yup
+      .string()
+      .required("Email harus diisi")
+      .email("Pastikan yang diinput adalah email"),
+    name: yup.string().required("Nama harus diisi"),
+    password: yup
+      .string()
+      .required("Password harus diisi")
+      .min(6, "Password minimal 6 karakter"),
+    passwordRepeat: yup
+      .string()
+      .required("Repeat password harus diisi")
+      .oneOf([yup.ref("password"), null], "Password harus sama"),
+    role: yup.string().required(),
+    phone: yup.string().required("Phone harus diisi"),
+  });
 
-    try {
-      const res = await axios.post(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/upload-image",
-        formData,
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            "Content-Type": "multipart/form-data",
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pZnRhaGZhcmhhbkBnbWFpbC5jb20iLCJ1c2VySWQiOiI5NWE4MDNjMy1iNTFlLTQ3YTAtOTBkYi0yYzJmM2Y0ODE1YTkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2Nzk4NDM0NDR9.ETsN6dCiC7isPReiQyHCQxya7wzj05wz5zruiFXLx0k",
-          },
-        }
-      );
+  // formik setup
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      name: "",
+      password: "",
+      passwordRepeat: "",
+      role: "admin",
+      phone: "",
+      profilePicture: null,
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append("image", values.profilePicture);
 
-      // console.log(res.data.url);
-      return res.data.url;
-    } catch (error) {
-      // console.log(error);
-      setError(error.response.data.message);
-      return null;
-    }
-  };
+      try {
+        // Upload profile picture first
+        const res = await axios.post(
+          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/upload-image",
+          formData,
+          {
+            headers: {
+              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+              "Content-Type": "multipart/form-data",
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pZnRhaGZhcmhhbkBnbWFpbC5jb20iLCJ1c2VySWQiOiI5NWE4MDNjMy1iNTFlLTQ3YTAtOTBkYi0yYzJmM2Y0ODE1YTkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2Nzk4NDM0NDR9.ETsN6dCiC7isPReiQyHCQxya7wzj05wz5zruiFXLx0k",
+            },
+          }
+        );
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
+        const profilePictureUrl = res.data.url;
 
-    // First, upload the profile picture
-    const profilePictureUrl = await handleUpload();
+        // Register user with uploaded picture URL
+        const payload = { ...values, profilePictureUrl };
+        delete payload.profilePicture;
 
-    if (!profilePictureUrl) {
-      return; // Stop the registration process if the upload failed
-    }
+        await axios.post(
+          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/register",
+          payload,
+          {
+            headers: {
+              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-    const payload = {
-      email: email,
-      name: name,
-      password: password,
-      passwordRepeat: passwordRepeat,
-      role: role,
-      profilePictureUrl: profilePictureUrl, // Use the uploaded image URL
-      phoneNumber: phoneNumber,
-    };
-
-    try {
-      const res = await axios.post(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/register",
-        payload,
-        {
-          headers: {
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // console.log(res);
-      // setToken(res.data.code);
-      setSuccessMessage(res.data.message || "Registration successful");
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
-    } catch (error) {
-      // console.log(error);
-      setError(error.response?.data?.message || "Registration failed");
-    }
-  };
+        setSuccessMessage("Registration successful");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+      } catch (error) {
+        setError(error.response?.data?.message || "Registration failed");
+      }
+    },
+  });
 
   return (
     <div className="flex items-center justify-center min-h-screen p-6">
@@ -106,33 +106,46 @@ const Register = () => {
             <p className="text-green-600 ">{successMessage}</p>
           )}
 
-          <form onSubmit={handleRegister} className="flex flex-col space-y-4">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="flex flex-col space-y-4"
+          >
             <div className="grid grid-cols-2 gap-2">
               <div className="flex flex-col">
                 <label htmlFor="email" className="mb-1 text-sm font-medium">
                   Email
                 </label>
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="text"
+                  {...formik.getFieldProps("email")}
+                  type="email"
                   name="email"
                   id="email"
                   placeholder="Email"
                   className="p-2 border border-orange-300 rounded-lg focus:outline-none "
                 />
+                {formik.touched.email && formik.errors.email ? (
+                  <div className="text-xs text-red-500">
+                    {formik.errors.email}
+                  </div>
+                ) : null}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="name" className="mb-1 text-sm font-medium">
                   Name
                 </label>
                 <input
-                  onChange={(e) => setName(e.target.value)}
+                  {...formik.getFieldProps("name")}
                   type="text"
                   name="name"
                   id="name"
                   placeholder="Name"
                   className="p-2 border border-orange-300 rounded-lg focus:outline-none"
                 />
+                {formik.touched.name && formik.errors.name ? (
+                  <div className="text-xs text-red-500">
+                    {formik.errors.name}
+                  </div>
+                ) : null}
               </div>
               <div className="flex flex-col">
                 <label htmlFor="password" className="mb-1 text-sm font-medium">
@@ -140,7 +153,7 @@ const Register = () => {
                 </label>
                 <div className="flex justify-between p-2 border border-orange-300 rounded-lg">
                   <input
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...formik.getFieldProps("password")}
                     type={showPassword ? "text" : "password"}
                     name="password"
                     id="password"
@@ -158,20 +171,23 @@ const Register = () => {
                     )}
                   </div>
                 </div>
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="text-xs text-red-500">{formik.errors.password}</div>
+                ) : null}
               </div>
               <div className="flex flex-col">
                 <label
-                  htmlFor="passwordrepeat"
+                  htmlFor="passwordRepeat"
                   className="mb-1 text-sm font-medium"
                 >
                   Password Repeat
                 </label>
                 <div className="flex justify-between p-2 border border-orange-300 rounded-lg">
                   <input
-                    onChange={(e) => setPasswordRepeat(e.target.value)}
+                    {...formik.getFieldProps("passwordRepeat")}
                     type={showPasswordRepeat ? "text" : "password"}
-                    name="passwordrepeat"
-                    id="passwordrepeat"
+                    name="passwordRepeat"
+                    id="passwordRepeat"
                     placeholder="Repeat Password"
                     className="w-full focus:outline-none"
                   />
@@ -186,6 +202,12 @@ const Register = () => {
                     )}
                   </div>
                 </div>
+                {formik.touched.passwordRepeat &&
+                formik.errors.passwordRepeat ? (
+                  <div className="text-xs text-red-500">
+                    {formik.errors.passwordRepeat}
+                  </div>
+                ) : null}
               </div>
             </div>
 
@@ -195,8 +217,8 @@ const Register = () => {
                   Role
                 </label>
                 <select
-                  onChange={(e) => setRole(e.target.value)}
-                  value={role}
+                  {...formik.getFieldProps("role")}
+                  // value={role}
                   name="role"
                   id="role"
                   className="p-2 border border-orange-300 rounded-lg "
@@ -206,14 +228,22 @@ const Register = () => {
                 </select>
               </div>
               <div className="flex flex-col">
-                <label htmlFor="upload" className="mb-1 text-sm font-medium">
+                <label
+                  htmlFor="profilePicture"
+                  className="mb-1 text-sm font-medium"
+                >
                   Upload Img
                 </label>
                 <input
-                  onChange={(e) => setProfilePicture(e.target.files[0])}
+                  onChange={(event) =>
+                    formik.setFieldValue(
+                      "profilePicture",
+                      event.target.files[0]
+                    )
+                  }
                   type="file"
-                  name="img"
-                  id="img"
+                  name="profilePicture"
+                  id="profilePicture"
                   className="p-2 border border-orange-300 rounded-lg "
                 />
               </div>
@@ -222,13 +252,18 @@ const Register = () => {
                   Phone
                 </label>
                 <input
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  {...formik.getFieldProps("phoneNumber")}
                   type="text"
                   name="phone"
                   id="phone"
                   placeholder="Phone"
                   className="p-2 border border-orange-300 rounded-lg focus:outline-none"
                 />
+                {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+                  <div className="text-xs text-red-500">
+                    {formik.errors.phoneNumber}
+                  </div>
+                ) : null}
               </div>
             </div>
             <button
