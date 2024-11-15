@@ -29,7 +29,6 @@ const Register = () => {
       .string()
       .required("Repeat password harus diisi")
       .oneOf([yup.ref("password"), null], "Password harus sama"),
-    role: yup.string().required(),
     phone: yup.string().required("Phone harus diisi"),
   });
 
@@ -40,7 +39,7 @@ const Register = () => {
       name: "",
       password: "",
       passwordRepeat: "",
-      role: "admin",
+      role: "user",
       phone: "",
       profilePicture: null,
     },
@@ -67,7 +66,7 @@ const Register = () => {
         const profilePictureUrl = res.data.url;
 
         // Register user with uploaded picture URL
-        const payload = { ...values, profilePictureUrl };
+        const payload = { ...values, role: "user", profilePictureUrl };
         delete payload.profilePicture;
 
         await axios.post(
@@ -212,21 +211,6 @@ const Register = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-1">
-              <div className="flex flex-col">
-                <label htmlFor="role" className="mb-1 text-sm font-medium">
-                  Role
-                </label>
-                <select
-                  {...formik.getFieldProps("role")}
-                  // value={role}
-                  name="role"
-                  id="role"
-                  className="p-2 border border-orange-300 rounded-lg "
-                >
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </select>
-              </div>
               <div className="flex flex-col">
                 <label
                   htmlFor="profilePicture"
